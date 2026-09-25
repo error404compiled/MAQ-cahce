@@ -1,5 +1,5 @@
 """maqcache version"""
-__version__ = "0.1.44"
+__version__ = "1.0.0"
 
 from maqcache.config import Config
 from maqcache.core import Cache

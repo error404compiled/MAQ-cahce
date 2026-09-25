@@ -42,7 +42,7 @@ $ python vqa_demo.py --cfg-path eval_configs/minigpt4_eval.yaml  --gpu-id 0 --di
 
 > Please note that not all data managers are compatible with an embedding function.
 
-### [Default embedding function](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/embedding/default.py)
+### [Default embedding function](https://github.com/error404compiled/MAQ-cahce/blob/main/examples/embedding/default.py)
 
 Nothing to do. Only `map data` manager can be configured for use. 
 
@@ -53,7 +53,7 @@ def to_embeddings(data, **kwargs):
 
 ### Suitable for embedding methods consisting of a cached storage and vector store
 
-**[ONNX](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/embedding/onnx.py)**
+**[ONNX](https://github.com/error404compiled/MAQ-cahce/blob/main/examples/embedding/onnx.py)**
 
 > When creating an Embedding object, the model will be loaded. It is important to remember to pass the dimension to the data manager.
 
@@ -260,7 +260,7 @@ Support general database
 - Oracle.
 - DynamoDB
 
-> [Example code](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/data_manager/scalar_store.py)
+> [Example code](https://github.com/error404compiled/MAQ-cahce/blob/main/examples/data_manager/scalar_store.py)
 
 Support vector database
 
@@ -269,13 +269,13 @@ Support vector database
 - FAISS
 - ChromaDB
 
-> [Example code](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/data_manager/vector_store.py)
+> [Example code](https://github.com/error404compiled/MAQ-cahce/blob/main/examples/data_manager/vector_store.py)
 
 **Custom Store**
 
-First, you need to implement two interfaces, namely [`CacheStorage`](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/scalar_data/base.py) and [`VectorBase`](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/vector_data/base.py), and then create the corresponding data manager through the `get_data_manager` method.
+First, you need to implement two interfaces, namely [`CacheStorage`](https://github.com/error404compiled/MAQ-cahce/blob/main/maqcache/manager/scalar_data/base.py) and [`VectorBase`](https://github.com/error404compiled/MAQ-cahce/blob/main/maqcache/manager/vector_data/base.py), and then create the corresponding data manager through the `get_data_manager` method.
 
-Reference: [CacheStorage sqlalchemy](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/scalar_data/sqlalchemy.py) [VectorBase Faiss](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/vector_data/faiss.py)
+Reference: [CacheStorage sqlalchemy](https://github.com/error404compiled/MAQ-cahce/blob/main/maqcache/manager/scalar_data/sqlalchemy.py) [VectorBase Faiss](https://github.com/error404compiled/MAQ-cahce/blob/main/maqcache/manager/vector_data/faiss.py)
 
 ```python
 from maqcache import cache
@@ -287,7 +287,7 @@ cache.init(data_manager=data_manager)
 
 ## How to set the `similarity evaluation` interface
 
-**[ExactMatchEvaluation, default](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/similarity_evaluation/exact_match.py)**
+**[ExactMatchEvaluation, default](https://github.com/error404compiled/MAQ-cahce/blob/main/examples/similarity_evaluation/exact_match.py)**
 
 Exact match between two questions, currently only available for map data manager.
 
@@ -303,7 +303,7 @@ cache.set_openai_key()
 
 <details>
 
-<summary> <strong><a href="https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/similarity_evaluation/search_distance.py">SearchDistanceEvaluation</a></strong> </summary>
+<summary> <strong><a href="https://github.com/error404compiled/MAQ-cahce/blob/main/examples/similarity_evaluation/search_distance.py">SearchDistanceEvaluation</a></strong> </summary>
 
 Using search distance to evaluate sentences pair similarity.
 
@@ -321,7 +321,7 @@ cache.set_openai_key()
 
 <details>
 
-<summary> <strong><a href="https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/similarity_evaluation/onnx.py">OnnxModelEvaluation</a></strong> </summary>
+<summary> <strong><a href="https://github.com/error404compiled/MAQ-cahce/blob/main/examples/similarity_evaluation/onnx.py">OnnxModelEvaluation</a></strong> </summary>
 
 Using ONNX model to evaluate sentences pair similarity.
 
@@ -362,7 +362,7 @@ To meet the requirements, you will need to implement the `SimilarityEvaluation` 
 - evaluation, The function takes three input values, namely user request data, cache data, and user-defined data. The last parameter, by using kwargs.get("evaluation_func", {}), is reserved for users.
 - range, The return of the range function needs to return two values, which are the minimum and maximum values.
 
-Reference: [similarity evaluation dir](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/maqcache/similarity_evaluation)
+Reference: [similarity evaluation dir](https://github.com/error404compiled/MAQ-cahce/tree/main/maqcache/similarity_evaluation)
 
 <details>
 
@@ -675,18 +675,18 @@ curl -X 'POST' \
  'Hi back'
  ```
 
-## [Benchmark](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/benchmark/benchmark_sqlite_faiss_onnx.py)
+## [Benchmark](https://github.com/error404compiled/MAQ-cahce/tree/main/examples/benchmark/benchmark_sqlite_faiss_onnx.py)
 
 The benchmark script about the `Sqlite + Faiss + ONNX`
 
-[Test data source](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/benchmark/mock_data.json): Randomly scrape some information from the webpage (origin), and then let chatgpt produce corresponding data (similar).
+[Test data source](https://github.com/error404compiled/MAQ-cahce/tree/main/examples/benchmark/mock_data.json): Randomly scrape some information from the webpage (origin), and then let chatgpt produce corresponding data (similar).
 
 - **threshold**: answer evaluation threshold, A smaller value means higher consistency with the content in the cache, a lower cache hit rate, and a lower cache miss hit; a larger value means higher tolerance, a higher cache hit rate, and at the same time also have higher cache misses.
 - **positive**: effective cache hit, which means entering `similar` to search and get the same result as `origin`
 - **negative**: cache hit but the result is wrong, which means entering `similar` to search and get the different result as `origin`
 - **fail count**: cache miss
 
-data file: [mock_data.json](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/benchmark/mock_data.json)
+data file: [mock_data.json](https://github.com/error404compiled/MAQ-cahce/tree/main/examples/benchmark/mock_data.json)
 similarity evaluation func: pair_evaluation (search distance)
 
  | threshold | average time | positive | negative | fail count |

@@ -360,7 +360,7 @@ def test_image_create():
     cache.init(pre_embedding_func=get_prompt)
     prompt1 = "test url"  # bytes
     test_url = (
-        "https://raw.githubusercontent.com/error404compiled/MAQ-cahce/making-it-mine/docs/MAQCache.png"
+        "https://raw.githubusercontent.com/error404compiled/MAQ-cahce/main/docs/MAQCache.png"
     )
     test_response = {"created": 1677825464, "data": [{"url": test_url}]}
     prompt2 = "test base64"

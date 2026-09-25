@@ -23,7 +23,7 @@ from maqcache.similarity_evaluation.onnx import OnnxModelEvaluation
 
 
 def test_replicate():
-    test_response = {"data": [{"url": "https://raw.githubusercontent.com/error404compiled/MAQ-cahce/making-it-mine/docs/MAQCache.png"}]}
+    test_response = {"data": [{"url": "https://raw.githubusercontent.com/error404compiled/MAQ-cahce/main/docs/MAQCache.png"}]}
     img_bytes = base64.b64decode(get_image_from_openai_url(test_response))
     img_file = BytesIO(img_bytes)  # convert image to file-like object
     img = Image.open(img_file)

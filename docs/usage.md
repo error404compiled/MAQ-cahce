@@ -1,377 +1,240 @@
-# MAQCache Quick Start
+# MAQCache Usage Guide
 
-MAQCache is easy to use and can reduce the latency of LLM queries by 100x in just two steps:
+MAQCache sits between your application and an LLM provider. Before a
+prompt is sent to the model, MAQCache checks whether a semantically
+similar prompt has already been answered; if so, it returns the stored
+answer instead of paying for another model call. Everything below
+covers how the pieces fit together and how to configure them.
 
-1. __Build your cache.__ In particular, you'll need to decide on an embedding function, similarity evaluation function, where to store your data, and the eviction policy.
-2. __Choose your LLM.__ MAQCache currently supports OpenAI's ChatGPT (GPT3.5-turbo) and langchain. Langchain supports a variety of LLMs, such as Anthropic, Huggingface, and Cohere models.
+## How a request flows through the cache
 
-### Build your **Cache**
+1. **Accept the request.** The adapter layer normalizes whatever LLM
+   client call you're making (OpenAI, Anthropic, LangChain, ...) into a
+   common request shape.
+2. **Turn the prompt into a vector.** A pre-processing function pulls
+   the relevant text out of the request, and an embedding function
+   converts it into a dense vector.
+3. **Search for a similar vector.** The vector store returns the
+   closest matches it has on file.
+4. **Score the match.** A similarity evaluator decides whether any of
+   those candidates are close enough to count as a hit.
+5. **Fetch or store.** On a hit, the stored answer (held in the scalar
+   store, alongside the vector's cache key) is returned. On a miss,
+   the request goes to the real LLM and the new question/answer pair
+   is written back to the cache.
 
-The default interface for `Cache` is as follows:
+![MAQCache in-memory search flow](MAQCache-Local-Search.png)
+
+By default, step 5's bookkeeping (which cache keys exist, which are
+due for eviction) lives in a single process's memory. That's fine for
+one node, but it means two replicas of your service won't share a
+cache. Swapping the eviction manager for a shared store (Redis) moves
+that bookkeeping out of process memory so every node sees the same
+cache state:
+
+![MAQCache distributed search flow](MAQCache-Distributed-Search.png)
+
+With a shared eviction manager in place, you can run MAQCache behind a
+load balancer across multiple nodes and they'll all hit the same
+cache:
+
+![MAQCache multi-node deployment](MAQCache-Multinode.png)
+
+```python
+from maqcache import Cache
+from maqcache.embedding import Onnx
+from maqcache.manager import manager_factory
+
+onnx = Onnx()
+data_manager = manager_factory(
+    "redis,faiss",
+    eviction_manager="redis",
+    scalar_params={"url": "redis://localhost:6379"},
+    vector_params={"dimension": onnx.dimension},
+    eviction_params={"maxmemory": "100mb", "policy": "allkeys-lru", "ttl": 1},
+)
+
+cache = Cache()
+cache.init(data_manager=data_manager)
+```
+
+The server (see below) accepts the same options through a YAML config
+file instead of Python kwargs.
+
+## Building a cache
+
+Every cache is assembled from the same set of interchangeable pieces,
+each with a sensible default:
 
 ```python
 class Cache:
-   def init(self,
-            cache_enable_func=cache_all,
-            pre_embedding_func=last_content,
-            embedding_func=string_embedding,
-            data_manager: DataManager = get_data_manager(),
-            similarity_evaluation=ExactMatchEvaluation(),
-            post_process_messages_func=first,
-            config=Config(),
-            next_cache=None,
-            **kwargs
-            ):
-       self.has_init = True
-       self.cache_enable_func = cache_enable_func
-       self.pre_embedding_func = pre_embedding_func
-       self.embedding_func = embedding_func
-       self.data_manager: DataManager = data_manager
-       self.similarity_evaluation = similarity_evaluation
-       self.post_process_messages_func = post_process_messages_func
-       self.data_manager.init(**kwargs)
-       self.config = config
-       self.next_cache = next_cache
-
+    def init(self,
+             cache_enable_func=cache_all,
+             pre_embedding_func=last_content,
+             embedding_func=string_embedding,
+             data_manager=get_data_manager(),
+             similarity_evaluation=ExactMatchEvaluation(),
+             post_process_messages_func=first,
+             config=Config(),
+             next_cache=None,
+             **kwargs):
+        ...
 ```
 
-Before creating a MAQCache, consider the following questions:
+- **`pre_embedding_func`** pulls the text worth embedding out of the
+  raw request. Different LLM clients shape their requests differently,
+  so pick the one that matches yours (see `maqcache/processor/pre.py`
+  for the full list — options exist for OpenAI chat/image/audio,
+  LangChain, Replicate, Stable Diffusion, MiniGPT4, Dolly, and more).
+  For long conversations, `maqcache/processor/context/` has
+  summarization- and selection-based compressors that shrink a chat
+  history down before it's embedded.
+- **`embedding_func`** turns that text into a vector. Built-in
+  backends (`maqcache/embedding/`) cover ONNX, Huggingface
+  Transformers, Sentence-Transformers, OpenAI, Cohere, LangChain,
+  RWKV, PaddleNLP, UForm, FastText, Data2Vec (audio), Timm and ViT
+  (image). Pick one based on the modality you're caching and the
+  language(s) your traffic uses.
+- **`data_manager`** owns both the scalar store (original
+  prompts/answers/metadata — SQLite, MySQL, MariaDB, SQL Server,
+  Oracle, PostgreSQL, DuckDB) and the vector store (FAISS, Milvus,
+  Chroma, hnswlib, pgvector, DocArray, USearch, Redis). For
+  multi-modal caches there's also an object store (local disk or S3)
+  for the raw files.
 
-1. How will you generate embeddings for queries? (`embedding_func`)
-   
-    This function embeds text into a dense vector for context similarity search. MAQCache currently supports five methods for embedding context: OpenAI, Cohere, Huggingface, ONNX, and SentenceTransformers. We also provide a default string embedding method which serves as simple passthrough.
-    
-    For example, to use ONNX Embeddings, simply initialize your embedding function as `onnx.to_embeddings`.
-    
-    ```python
-    data_manager = get_data_manager(CacheBase("sqlite"), VectorBase("faiss", dimension=onnx.dimension))
-    
-    cache.init(
-        embedding_func=onnx.to_embeddings,
-        data_manager=data_manager,
-        similarity_evaluation=SearchDistanceEvaluation(),
-    )
-    cache.set_openai_key()
-    ```
-    
-    Check out more [examples](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#How-to-set-the-embedding-function) to see how to use different embedding functions.
-    
-2. Where will you cache the data? (`data_manager` cache storage)
-   
-    The cache storage stores all scalar data such as original questions, prompts, answers, and access times. MAQCache supports a number of cache storage options, such as SQLite, MySQL, and PostgreSQL. More NoSQL databases will be added in the future.
-    
-3. Where will you store and search vector embeddings? (`data_manager` vector storage)
-   
-    The vector storage component stores and searches across all embeddings to find the most similar results semantically. MAQCache supports the use of vector search libraries such as FAISS or vector databases such as Milvus. More vector databases and cloud services will be added in the future.
+  ```python
+  from maqcache.manager import manager_factory
 
-    Here are some examples:
+  data_manager = manager_factory(
+      "sqlite,faiss", data_dir="./workspace",
+      scalar_params={}, vector_params={"dimension": 128},
+  )
+  ```
 
-   ```python
-   ## create user defined data manager
-   data_manager = get_data_manager()
-   ## create data manager with sqlite and faiss 
-   data_manager = get_data_manager(CacheBase("sqlite"), VectorBase("faiss", dimension=128))
-   ## create data manager with mysql and milvus, max cache size is 100
-   data_manager = get_data_manager(CacheBase("mysql"), VectorBase("milvus", dimension=128), max_size=100)
-   ## create data manager with mysql and milvus, max cache size is 100, eviction policy is LRU
-   data_manager = get_data_manager(CacheBase("mysql"), VectorBase("milvus", dimension=128), max_size=100, eviction='LRU') 
-   ```
-   
-   Check out more [examples](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#How-to-set-the-data-manager-class) to see how to use different data managers.
+  or compose the pieces directly:
 
-4. What is the eviction policy?
-   
-    MAQCache supports evicting data based on cache count. You can choose to use either the LRU or FIFO policy. In the future, we plan to support additional cache policies, such as evicting data based on last access time or last write time.
+  ```python
+  from maqcache.manager import get_data_manager, CacheBase, VectorBase
 
-5. How will you determine cache hits versus misses? (`evaluation_func`)
+  data_manager = get_data_manager(CacheBase("sqlite"), VectorBase("faiss", dimension=128))
+  ```
+- **`similarity_evaluation`** decides whether a candidate match is
+  close enough to serve. Options range from exact string matching, to
+  raw embedding distance, to a dedicated ONNX cross-encoder model for
+  higher-precision judgments.
+- **`post_process_messages_func`** picks which cached candidate (or
+  combination of candidates) is actually returned to the caller.
+- **`config`** holds tunables like `similarity_threshold`.
+- **`next_cache`** chains caches together (e.g. a fast in-memory L1 in
+  front of a larger L2); a miss on the first falls through to the
+  next before finally calling the LLM.
 
-   The evaluation function helps to determine whether the cached answer matches the input query. It takes three input values: `user request data`, `cached data`, and `user-defined parameters`. MAQCache currently supports three types of evaluation functions: exact match evaluation, embedding distance evaluation and ONNX model evaluation.
+The library also ships two shortcuts that wire up a sensible default
+stack for you instead of building one by hand:
 
-   To enable ONNX evaluation, simply pass `EvaluationOnnx` to `similarity_evaluation`. This allows you to run any model that can be served on ONNX. We will support Pytorch, TensorRT and the other inference engines in the future.
+- `init_similar_cache(data_dir=..., pre_func=get_prompt, ...)` — an
+  ONNX + SQLite + FAISS similarity cache.
+- `init_similar_cache_from_config(config_dir=...)` — builds the same
+  kind of cache from a YAML config file (see
+  `cache_config_template.yml` for the shape).
 
-   ```python
-   onnx = EmbeddingOnnx()
-   data_manager = get_data_manager(CacheBase("sqlite"), VectorBase("faiss", dimension=onnx.dimension))
-   evaluation_onnx = EvaluationOnnx()
-   cache.init(
-       embedding_func=onnx.to_embeddings,
-       data_manager=data_manager,
-       similarity_evaluation=evaluation_onnx,
-   )
-   ```
+## Talking to an LLM through the cache
 
-   Check out our [examples](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#How-to-set-the-similarity-evaluation-interface) page to see how to use different similarity evaluation functions.
-
-Users can also pass in other configuration options, such as:
-
-- `log_time_func`: A function that logs time-consuming operations such as `embedding` and `search`.
-- `similarity_threshold`: The threshold used to determine when embeddings are similar to each other.
-
-### **Chose your adapter**
-
-MAQCache currently supports two LLM adapters: OpenAI and Langchain.
-
-With the OpenAI adapter, you can specify the model you want to use and generate queries as a user role.
+**OpenAI adapter:**
 
 ```python
+from maqcache import cache
+from maqcache.adapter import openai
+
 cache.init()
 cache.set_openai_key()
 
-question = "what's github"
-answer = openai.ChatCompletion.create(
-      model='gpt-3.5-turbo',
-      messages=[
-        {
-            'role': 'user',
-            'content': question
-        }
-      ],
-    )
-print(answer)
-```
-
-Here's an example that utilizes OpenAI's stream response API:
-
-```python
-from maqcache.manager import get_data_manager
-from maqcache.core import cache, Cache
-from maqcache.adapter import openai
-
-cache.init(data_manager=get_data_manager())
-os.environ["OPENAI_API_KEY"] = "API KEY"
-cache.set_openai_key()
-
 response = openai.ChatCompletion.create(
-    model='gpt-3.5-turbo',
-    messages=[
-        {'role': 'user', 'content': "What's 1+1? Answer in one word."}
-    ],
-    temperature=0,
-    stream=True  # this time, we set stream=True
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": "what's github"}],
 )
-
-# create variables to collect the stream of chunks
-collected_chunks = []
-collected_messages = []
-# iterate through the stream of events
-for chunk in response:
-    collected_chunks.append(chunk)  # save the event response
-    chunk_message = chunk['choices'][0]['delta']  # extract the message
-    collected_messages.append(chunk_message)  # save the message
-
-full_reply_content = ''.join([m.get('content', '') for m in collected_messages])
 ```
 
-If you want to use other LLMs, the Langchain adapter provides support a standard interface to connect with Langchain-supported LLMs.
+Streaming responses work the same way — pass `stream=True` and
+consume the returned generator as you normally would with the OpenAI
+SDK.
+
+**LangChain adapter**, for any LLM LangChain supports:
 
 ```python
-template = """Question: {question}
-
-Answer: Let's think step by step."""
-
-prompt = PromptTemplate(template=template, input_variables=["question"])
-
-llm = OpenAI()
-
-question = "What NFL team won the Super Bowl in the year Justin Bieber was born?"
+from maqcache import Cache
+from maqcache.adapter.langchain_models import LangChainLLMs
+from maqcache.processor.pre import get_prompt
+from langchain.llms import OpenAI
+from langchain import PromptTemplate
 
 llm_cache = Cache()
-llm_cache.init(
-    pre_embedding_func=get_prompt,
-    post_process_messages_func=postnop,
-)
+llm_cache.init(pre_embedding_func=get_prompt)
 
-cached_llm = LangChainLLMs(llm)
-answer = cached_llm(question, cache_obj=llm_cache)
+cached_llm = LangChainLLMs(OpenAI())
+answer = cached_llm("What NFL team won the Super Bowl the year Justin Bieber was born?", cache_obj=llm_cache)
 ```
 
-We plan to support other models soon, so any contributions or suggestions are welcome.
+There's also a direct Anthropic adapter (`maqcache.adapter.anthropic`)
+for Claude models, and adapters for Replicate, Stability AI,
+diffusers, MiniGPT4, Llama.cpp, and Dolly under `maqcache/adapter/`.
 
-### Other request parameters
+### Per-request options
 
-**cache_obj**: Customize the request cache. Use this if you want to make the cache a singleton.
+- **`cache_obj`** — pass a specific `Cache` instance instead of using
+  the global default, useful when a service needs several
+  independently-configured caches.
+- **`cache_context`** — override individual pipeline functions
+  (`pre_embedding_func`, `embedding_func`, etc.) for just one call.
+- **`cache_skip=True`** — bypass the cache lookup but still write the
+  LLM's answer back into it.
+- **`session=Session(name=...)`** — scope cache hits to a session, see
+  `maqcache/session.py`.
+- **`temperature`** — MAQCache maps the standard `temperature`
+  parameter onto cache behavior: `0` always checks the cache first,
+  `2` always calls the LLM directly, and values in between
+  probabilistically skip the cache more often as temperature rises
+  (via `post_process_messages_func=temperature_softmax`).
 
-```python
-onnx = Onnx()
-data_manager = get_data_manager(CacheBase("sqlite"), VectorBase("faiss", dimension=onnx.dimension))
-one_cache = Cache()
-one_cache.init(embedding_func=onnx.to_embeddings,
-               data_manager=data_manager,
-               evaluation_func=pair_evaluation,
-               config=Config(
-                   similarity_threshold=1,
-                    ),
-               )
+## Running MAQCache as a server
 
-question = "what do you think about chatgpt"
+MAQCache can run standalone as an HTTP service instead of being
+embedded in your application process.
 
-openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": question}
-    ],
-    cache_obj=one_cache
-)
-```
+**Start it directly:**
 
-**cache_context**: Custom cache functions can be passed separately for each of the request.
-
-```python
-question = "what do you think about chatgpt"
-
-openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": question}
-    ],
-    cache_context={
-      "pre_embedding_func": {},
-      "embedding_func": {},
-      "search_func": {},
-      "get_scalar_data": {},
-      "evaluation_func": {},
-    }
-)
-```
-
-**cache_skip**: This option allows you to skip the cache search, but still store the results returned by the LLM model. 
-
-```python
-question = "what do you think about chatgpt"
-
-openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": question}
-    ],
-    cache_skip=True
-)
-```
-
-**session:** Specify the sesion of the current request, you can also set some rules to check if the session hits the cache, see this [example](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#How-to-run-with-session) for more details.
-
-```python
-from maqcache.session import Session
-
-session = Session(name="my-session")
-question = "what do you think about chatgpt"
-
-openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": question}
-    ],
-    session=session
-)
-```
-
-**temperature**: You can always pass a parameter of temperature with value between 0 and 2 to control randomity of output. A higher value of temperature like 0.8 will make the output more random. A lower value like 0.2 makes the output more coherent given the same input.
-
-> The range of `temperature` is [0, 2], default value is 0.0.
-> 
-> A higher temperature means a higher possibility of skipping cache search and requesting large model directly.
-> When temperature is 2, it will skip cache and send request to large model directly for sure. When temperature is 0, it will search cache before requesting large model service.
-> 
-> The default `post_process_messages_func` is `temperature_softmax`. In this case, refer to [API reference](https://gptcache.readthedocs.io/en/latest/references/processor.html#module-gptcache.processor.post) to learn about how `temperature` affects output.
-
-```python
-import time
-
-from maqcache import cache, Config
-from maqcache.manager import manager_factory
-from maqcache.embedding import Onnx
-from maqcache.processor.post import temperature_softmax
-from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
-from maqcache.adapter import openai
-
-cache.set_openai_key()
-
-onnx = Onnx()
-data_manager = manager_factory("sqlite,faiss", vector_params={"dimension": onnx.dimension})
-
-cache.init(
-    embedding_func=onnx.to_embeddings,
-    data_manager=data_manager,
-    similarity_evaluation=SearchDistanceEvaluation(),
-    post_process_messages_func=temperature_softmax
-    )
-# cache.config = Config(similarity_threshold=0.2)
-
-question = "what's github"
-
-for _ in range(3):
-    start = time.time()
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        temperature = 1.0,  # Change temperature here
-        messages=[{
-            "role": "user",
-            "content": question
-        }],
-    )
-    print("Time elapsed:", round(time.time() - start, 3))
-    print("Answer:", response["choices"][0]["message"]["content"])
-```
-
-### Use MAQCache server
-
-MAQCache now supports building a server with caching and conversation capabilities. You can start a customized MAQCache service within a few lines. Here is a simple example to show how to build and interact with MAQCache server. For more detailed information, arguments, parameters, refer to [this](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples).
-
-**Start server**
-
-Once you have MAQCache installed, you can start the server with following command:
 ```shell
 $ maqcache_server -s 127.0.0.1 -p 8000
 ```
 
-**Start server with docker**
+**Or build and run it in a container:**
 
 ```shell
-# build from source until an internal registry image is published
 $ docker build -t maqcache -f maqcache_server/dockerfiles/Dockerfile .
 $ docker run -p 8000:8000 -it maqcache
 ```
 
-**Interact with the server**
-
-MAQCache supports two ways of interaction with the server:
-
-- With command line:
-
-put the data to cache
+**Talk to it over HTTP:**
 
 ```shell
-curl -X 'POST' \
-  'http://localhost:8000/put' \
-  -H 'accept: application/json' \
+curl -X POST http://localhost:8000/put \
   -H 'Content-Type: application/json' \
-  -d '{
-  "prompt": "Hi",
-  "answer": "Hi back"
-}'
+  -d '{"prompt": "Hi", "answer": "Hi back"}'
+
+curl -X POST http://localhost:8000/get \
+  -H 'Content-Type: application/json' \
+  -d '{"prompt": "Hi"}'
 ```
 
-get the data from the cache
-
-```shell
-curl -X 'POST' \
-  'http://localhost:8000/get' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "prompt": "Hi"
-}'
-```
-
-
-- With python client:
+**Or through the bundled Python client:**
 
 ```python
- >>> from maqcache.client import Client
+from maqcache.client import Client
 
- >>> client = Client(uri="http://localhost:8000")
- >>> client.put("Hi", "Hi back")
- 200
- >>> client.get("Hi")
- 'Hi back'
- ```
+client = Client(uri="http://localhost:8000")
+client.put("Hi", "Hi back")
+client.get("Hi")  # -> 'Hi back'
+```
+
+For more end-to-end examples (per-adapter, per-embedding-backend, and
+per-similarity-evaluator), see [examples/README.md](../examples/README.md).

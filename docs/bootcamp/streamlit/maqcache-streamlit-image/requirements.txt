@@ -1,7 +1,0 @@
-maqcache
-pillow
-streamlit
-onnxruntime
-faiss-cpu
-transformers
-sqlalchemy

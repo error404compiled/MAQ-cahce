@@ -15,7 +15,7 @@ def test_uform():
     embed = encoder.to_embeddings("Hello, world.")
     assert len(embed) == encoder.dimension
 
-    url = "https://raw.githubusercontent.com/error404compiled/MAQ-cahce/making-it-mine/docs/MAQCache.png"
+    url = "https://raw.githubusercontent.com/error404compiled/MAQ-cahce/main/docs/MAQCache.png"
     image_bytes = requests.get(url).content
     image_file = BytesIO(image_bytes)
 

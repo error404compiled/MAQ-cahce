@@ -3,18 +3,16 @@ Slash Your LLM API Costs by 10x 💰, Boost Speed by 100x ⚡
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/license/mit/)
 
-> MAQCache is MAQ Softwares' internal fork of the open-source [GPTCache](https://github.com/zilliztech/GPTCache) project (MIT licensed), renamed and maintained for internal deployment.
+🐳 [The MAQCache server](docs/usage.md#running-maqcache-as-a-server) can be built and run as a docker container, which means that **any language** will be able to use MAQCache!
 
-🐳 [The MAQCache server](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/docs/usage.md#Use-MAQCache-server) can be built and run as a docker container, which means that **any language** will be able to use MAQCache!
+📔 This project is under active development, and the API may change. For the most up-to-date information, see the [usage guide](docs/usage.md) and [release notes](docs/release_note.md).
 
-📔 This project is undergoing swift development, and as such, the API may be subject to change at any time. For the most up-to-date information, please refer to the latest [documentation](docs/index.rst) and [release note](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/docs/release_note.md).
-
-**NOTE:** As the number of large models is growing explosively and their API shape is constantly evolving, we no longer add support for new API or models. We encourage the usage of using the get and set API in maqcache, here is the demo code: https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/adapter/api.py
+**NOTE:** As the number of large models keeps growing and their APIs keep evolving, we're not chasing every new provider's API shape. We recommend using the get/set API directly (see [`examples/adapter/api.py`](examples/adapter/api.py)) as the most stable integration point.
 
 ## Quick Install
 
 ```bash
-pip install "maqcache @ git+https://github.com/error404compiled/MAQ-cahce.git@making-it-mine"
+pip install "maqcache @ git+https://github.com/error404compiled/MAQ-cahce.git@main"
 ```
 
 (Not yet published to an internal package index — install from the git repo until that's set up.)
@@ -38,7 +36,7 @@ To tackle this challenge, we have created MAQCache, a project dedicated to build
 
 ```bash
 # clone MAQCache repo
-git clone -b making-it-mine https://github.com/error404compiled/MAQ-cahce.git
+git clone -b main https://github.com/error404compiled/MAQ-cahce.git
 cd MAQ-cahce
 
 # install the repo
@@ -48,7 +46,7 @@ python setup.py install
 
 ### example usage
 
-These examples will help you understand how to use exact and similar matching with caching. You can also run the example on [Colab](https://colab.research.google.com/drive/1m1s-iTDfLDk-UwUAQ_L8j1C-gzkcr2Sk?usp=share_link). And more examples you can refer to the [Bootcamp](docs/bootcamp/openai/chat.ipynb)
+These examples will help you understand how to use exact and similar matching with caching. For more, see [examples/README.md](examples/README.md).
 
 Before running the example, **make sure** the OPENAI_API_KEY environment variable is set by executing `echo $OPENAI_API_KEY`. 
 
@@ -192,7 +190,7 @@ for question in questions:
 > A higher temperature means a higher possibility of skipping cache search and requesting large model directly.
 > When temperature is 2, it will skip cache and send request to large model directly for sure. When temperature is 0, it will search cache before requesting large model service.
 > 
-> The default `post_process_messages_func` is `temperature_softmax`. In this case, refer to [API reference](https://gptcache.readthedocs.io/en/latest/references/processor.html#module-gptcache.processor.post) to learn about how `temperature` affects output.
+> The default `post_process_messages_func` is `temperature_softmax`. See [`maqcache/processor/post.py`](maqcache/processor/post.py) for how `temperature` affects output.
 
 ```python
 import time
@@ -245,34 +243,10 @@ cache.init()
 cache.set_openai_key()
 ```
 
-More Docs：
+More docs:
 
 - [Usage, how to use MAQCache better](docs/usage.md)
-- [Features, all features currently supported by the cache](docs/feature.md)
 - [Examples, learn better custom caching](examples/README.md)
-- [Distributed Caching and Horizontal Scaling ](docs/horizontal-scaling-usage.md)
-
-## 🎓 Bootcamp
-
-- MAQCache with **LangChain**
-  - [QA Generation](docs/bootcamp/langchain/qa_generation.ipynb)
-  - [Question Answering](docs/bootcamp/langchain/question_answering.ipynb)
-  - [SQL Chain](docs/bootcamp/langchain/sqlite.ipynb)
-  - [BabyAGI User Guide](docs/bootcamp/langchain/baby_agi.ipynb)
-- MAQCache with **Llama_index**
-  - [WebPage QA](docs/bootcamp/llama_index/webpage_qa.ipynb)
-- MAQCache with **OpenAI**
-  - [Chat completion](docs/bootcamp/openai/chat.ipynb)
-  - [Language Translation](docs/bootcamp/openai/language_translate.ipynb)
-  - [SQL Translate](docs/bootcamp/openai/sql_translate.ipynb)
-  - [Twitter Classifier](docs/bootcamp/openai/tweet_classifier.ipynb)
-  - [Multimodal: Image Generation](docs/bootcamp/openai/image_generation.ipynb)
-  - [Multimodal: Speech to Text](docs/bootcamp/openai/speech_to_text.ipynb)
-- MAQCache with **Replicate**
-  - [Visual Question Answering](docs/bootcamp/replicate/visual_question_answering.ipynb)
-- MAQCache with **Temperature Param**
-  - [OpenAI Chat](docs/bootcamp/temperature/chat.ipynb)
-  - [OpenAI Image Creation](docs/bootcamp/temperature/create_image.ipynb)
 
 ## 😎 What can this help with?
 MAQCache offers the following primary benefits:
@@ -288,7 +262,7 @@ Online services often exhibit data locality, with users frequently accessing pop
 
 However, using an exact match approach for LLM caches is less effective due to the complexity and variability of LLM queries, resulting in a low cache hit rate. To address this issue, MAQCache adopt alternative strategies like semantic caching. Semantic caching identifies and stores similar or related queries, thereby increasing cache hit probability and enhancing overall caching efficiency. 
 
-MAQCache employs embedding algorithms to convert queries into embeddings and uses a vector store for similarity search on these embeddings. This process allows MAQCache to identify and retrieve similar or related queries from the cache storage, as illustrated in the [Modules section](https://github.com/zilliztech/GPTCache#-modules). 
+MAQCache employs embedding algorithms to convert queries into embeddings and uses a vector store for similarity search on these embeddings. This process allows MAQCache to identify and retrieve similar or related queries from the cache storage, as illustrated in the [Modules section](#-modules) below.
 
 Featuring a modular design, MAQCache makes it easy for users to customize their own semantic cache. The system offers various implementations for each module, and users can even develop their own implementations to suit their specific needs.
 
@@ -298,7 +272,7 @@ In a semantic cache, you may encounter false positives during cache hits and fal
 - **Latency**: This metric measures the time it takes for a query to be processed and the corresponding data to be retrieved from the cache. Lower latency signifies a more efficient and responsive caching system.
 - **Recall**: This metric represents the proportion of queries served by the cache out of the total number of queries that should have been served by the cache. Higher recall percentages indicate that the cache is effectively serving the appropriate content.
 
-A [sample benchmark](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/benchmark/benchmark_sqlite_faiss_onnx.py) is included for users to start with assessing the performance of their semantic cache.
+A [sample benchmark](examples/benchmark/benchmark_sqlite_faiss_onnx.py) is included for users to start with assessing the performance of their semantic cache.
 
 ## 🤗 Modules
 
@@ -324,7 +298,7 @@ The Multimodal Adapter is designed to integrate different large multimodal model
 This module is created to extract embeddings from requests for similarity search. MAQCache offers a generic interface that supports multiple embedding APIs, and presents a range of solutions to choose from. 
   - [x] Disable embedding. This will turn MAQCache into a keyword-matching cache.
   - [x] Support OpenAI embedding API.
-  - [x] Support [ONNX](https://onnx.ai/) with the GPTCache/paraphrase-albert-onnx model.
+  - [x] Support [ONNX](https://onnx.ai/) with a small pretrained sentence-embedding model (downloaded from the Hugging Face Hub the first time it runs — see `maqcache/embedding/onnx.py` for the exact model id).
   - [x] Support [Hugging Face](https://huggingface.co/) embedding with transformers, ViTModel, Data2VecAudio.
   - [x] Support [Cohere](https://docs.cohere.ai/reference/embed) embedding API.
   - [x] Support [fastText](https://fasttext.cc) embedding.
@@ -383,7 +357,7 @@ The **Cache Manager** is responsible for controlling the operation of both the *
 - **Similarity Evaluator**: 
 This module collects data from both the **Cache Storage** and **Vector Store**, and uses various strategies to determine the similarity between the input request and the requests from the **Vector Store**. Based on this similarity, it determines whether a request matches the cache. MAQCache provides a standardized interface for integrating various strategies, along with a collection of implementations to use. The following similarity definitions are currently supported or will be supported in the future:
   - [x] The distance we obtain from the **Vector Store**.
-  - [x] A model-based similarity determined using the GPTCache/albert-duplicate-onnx model from [ONNX](https://onnx.ai/).
+  - [x] A model-based similarity score from a pretrained ONNX cross-encoder model (see `maqcache/similarity_evaluation/onnx.py` for the exact model id).
   - [x] Exact matches between the input request and the requests obtained from the **Vector Store**.
   - [x] Distance represented by applying linalg.norm from numpy to the embeddings.
   - [ ] BM25 and other similarity measurements.
@@ -394,8 +368,3 @@ This module collects data from both the **Cache Storage** and **Vector Store**, 
 
 ## 😇 Roadmap
 Coming soon!
-
-## 😍 Contributing
-We are extremely open to contributions, be it through new features, enhanced infrastructure, or improved documentation.
-
-For comprehensive instructions on how to contribute, please refer to our [contribution guide](docs/contributing.md).

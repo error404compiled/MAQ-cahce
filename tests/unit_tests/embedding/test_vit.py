@@ -13,7 +13,7 @@ def test_timm():
     from PIL import Image
     from maqcache.embedding import ViT
 
-    url = 'https://raw.githubusercontent.com/error404compiled/MAQ-cahce/making-it-mine/docs/MAQCache.png'
+    url = 'https://raw.githubusercontent.com/error404compiled/MAQ-cahce/main/docs/MAQCache.png'
     image_bytes = requests.get(url).content
     image_data = BytesIO(image_bytes)  # Convert image to file-like object
     image = Image.open(image_data)
