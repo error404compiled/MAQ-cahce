@@ -4,14 +4,14 @@
 
 **Latest version**: v0.1.32
 
-Before reading the following content, you need to understand the basic composition of GPTCache, you need to finish reading:
+Before reading the following content, you need to understand the basic composition of MAQCache, you need to finish reading:
 
-- [GPTCache README](https://github.com/zilliztech/GPTCache)
-- [GPTCache Quick Start](https://github.com/zilliztech/GPTCache/blob/main/docs/usage.md)
+- [MAQCache README](https://github.com/error404compiled/MAQ-cahce)
+- [MAQCache Quick Start](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/docs/usage.md)
 
-## Introduction to GPTCache initialization
+## Introduction to MAQCache initialization
 
-GPTCache **core components** include:
+MAQCache **core components** include:
 
 - pre-process func
 - embedding
@@ -27,7 +27,7 @@ The above core components need to be set when similar caches are initialized, an
 - **config**, some configurations of the cache, such as similarity thresholds, parameter values of some specific preprocessing functions, etc.;
 - **next_cache**, can be used to set up a multi-level cache. 
   
-    For example, there are two GPTCaches, L1 and L2, where L1 sets L2 as the next cache during initialization.
+    For example, there are two MAQCaches, L1 and L2, where L1 sets L2 as the next cache during initialization.
 
     When accepting a user request, if the L1 cache misses, it will go to the L2 cache to find it.
 
@@ -37,7 +37,7 @@ The above core components need to be set when similar caches are initialized, an
 
 The above is the basic description of all initialization parameters.
 
-In GPTCache lib, there is a global cache object. If the llm request does not set the cache object, this global object is used.
+In MAQCache lib, there is a global cache object. If the llm request does not set the cache object, this global object is used.
 
 There are currently **three** methods of initializing the cache, namely:
 
@@ -74,7 +74,7 @@ def init_similar_cache(
   pass
 ```
 
-3. The `init_similar_cache_from_config` in the api package initializes the cache through the yaml file, and the default is fuzzy matching of onnx+sqlite+faiss, more details: [GPTCache server configuration](https://github.com/zilliztech/GPTCache/tree/main/examples#start-server)
+3. The `init_similar_cache_from_config` in the api package initializes the cache through the yaml file, and the default is fuzzy matching of onnx+sqlite+faiss, more details: [MAQCache server configuration](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#start-server)
 
 ```
 def init_similar_cache_from_config(config_dir: str, cache_obj: Optional[Cache] = None):
@@ -104,9 +104,9 @@ Of course, two values can also be returned, the first one is used as the key of 
 
 **Currently available preprocessing functions:**
 
-all source code reference: [processor/pre](https://github.com/zilliztech/GPTCache/blob/main/gptcache/processor/pre.py)
+all source code reference: [processor/pre](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/processor/pre.py)
 
-all preprocessing api reference: [gptcache.processor.pre](https://gptcache.readthedocs.io/en/latest/references/processor.html#module-gptcache.processor.pre)
+all preprocessing api reference: [maqcache.processor.pre](https://gptcache.readthedocs.io/en/latest/references/processor.html#module-gptcache.processor.pre)
 
 If you are confused about the role of the following preprocessing functions, **you can check the api reference**, which contains simple function examples.
 
@@ -183,7 +183,7 @@ all embedding api reference: [embedding api](https://gptcache.readthedocs.io/en/
 - SBERT: optional model list reference: [sbert Pretrained Models](https://www.sbert.net/docs/pretrained_models.html)
 - OpenAI: openai embedding api server, more details: [openai embeddings](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings)
 - Cohere: cohere embedding api server, more details: [cohere embed](https://docs.cohere.com/reference/embed)
-- LangChain: langchain text embedding models, more details: [langchain text embedding models](https://langchain-langchain.vercel.app/docs/modules/data_connection/text_embedding/), [GPTCache langchain embedding usage](https://gptcache.readthedocs.io/en/latest/references/embedding.html#module-gptcache.embedding.langchain)
+- LangChain: langchain text embedding models, more details: [langchain text embedding models](https://langchain-langchain.vercel.app/docs/modules/data_connection/text_embedding/), [MAQCache langchain embedding usage](https://gptcache.readthedocs.io/en/latest/references/embedding.html#module-gptcache.embedding.langchain)
 - Rwkv: rwkv text embedding models, more details: [huggingface transformers rwkv](https://huggingface.co/docs/transformers/model_doc/rwkv)
 - PaddleNLP: easy-to-use and powerful NLP library, more details: [PaddleNLP Transformer models](https://paddlenlp.readthedocs.io/zh/latest/model_zoo/index.html)
 - UForm: multi-modal transformers library, more details: [ufrom usage](https://unum-cloud.github.io/uform/)
@@ -239,7 +239,7 @@ For the similar cache of text, only cache store and vector store are needed. If 
 `scalar_params` is the parameter required to build the cache store；
 
 ```python
-from gptcache.manager import manager_factory
+from maqcache.manager import manager_factory
 
 data_manager = manager_factory("sqlite,faiss", data_dir="./workspace", scalar_params={}, vector_params={"dimension": 128})
 ```
@@ -247,7 +247,7 @@ data_manager = manager_factory("sqlite,faiss", data_dir="./workspace", scalar_pa
 - Combining each store object through get_data_manager method
 
 ```python
-from gptcache.manager import get_data_manager, CacheBase, VectorBase
+from maqcache.manager import get_data_manager, CacheBase, VectorBase
 
 data_manager = get_data_manager(CacheBase('sqlite'), VectorBase('faiss', dimension=128))
 ```
@@ -291,7 +291,7 @@ MOTE: different llm corresponds to different **preprocessing functions**, which 
 
 ### beginner level
 
-Want to experience the function of GPTCache, use the simplest combination: `onnx embedding + (sqlite + faiss) data manager + distance similarity evaluation`
+Want to experience the function of MAQCache, use the simplest combination: `onnx embedding + (sqlite + faiss) data manager + distance similarity evaluation`
 
 <details>
 
@@ -300,9 +300,9 @@ Want to experience the function of GPTCache, use the simplest combination: `onnx
 ```python
 import time
 
-from gptcache.adapter import openai
-from gptcache.adapter.api import init_similar_cache
-from gptcache.processor.pre import last_content
+from maqcache.adapter import openai
+from maqcache.adapter.api import init_similar_cache
+from maqcache.processor.pre import last_content
 
 init_similar_cache(pre_func=last_content)
 
@@ -359,10 +359,10 @@ If the question is Chinese, you need to use other embedding models, here we use 
 ```python
 import time
 
-from gptcache.adapter import openai
-from gptcache.adapter.api import init_similar_cache
-from gptcache.embedding import Huggingface
-from gptcache.processor.pre import last_content
+from maqcache.adapter import openai
+from maqcache.adapter.api import init_similar_cache
+from maqcache.embedding import Huggingface
+from maqcache.processor.pre import last_content
 
 huggingface = Huggingface(model="uer/albert-base-chinese-cluecorpussmall")
 init_similar_cache(pre_func=last_content, embedding=huggingface)
@@ -425,14 +425,14 @@ Understand the initialization methods of all caches, and try different component
 ```python
 import time
 
-from gptcache import Cache, Config
-from gptcache.adapter import openai
-from gptcache.adapter.api import init_similar_cache
-from gptcache.embedding import Onnx
-from gptcache.manager import manager_factory
-from gptcache.processor.post import random_one
-from gptcache.processor.pre import last_content
-from gptcache.similarity_evaluation import OnnxModelEvaluation
+from maqcache import Cache, Config
+from maqcache.adapter import openai
+from maqcache.adapter.api import init_similar_cache
+from maqcache.embedding import Onnx
+from maqcache.manager import manager_factory
+from maqcache.processor.post import random_one
+from maqcache.processor.pre import last_content
+from maqcache.similarity_evaluation import OnnxModelEvaluation
 
 openai_complete_cache = Cache()
 encoder = Onnx()
@@ -523,7 +523,7 @@ response = openai.ChatCompletion.create(
 
 ### professional level
 
-Understand the source code of GPTCache, be familiar with the permission logic, and customize or create components according to your own needs.
+Understand the source code of MAQCache, be familiar with the permission logic, and customize or create components according to your own needs.
 
 According to the current usage, the main conditions to determine the cache quality are:
 1. Preprocessing function, because the return value of the function will be used as the input of embedding
@@ -531,4 +531,4 @@ According to the current usage, the main conditions to determine the cache quali
 3. Vector Store
 4. Similarity evaluation, using the rerank model for similar evaluation
 
-The GPTCache product we use internally, according to the existing data, found that the caching effect is good, and of course there is still room for improvement. At the same time, we also found that if a relevant model is trained on the data of this scene for a certain scene, the cache will work better. If you have real usage scenarios and relevant data sets, welcome to communicate with us.
+The MAQCache product we use internally, according to the existing data, found that the caching effect is good, and of course there is still room for improvement. At the same time, we also found that if a relevant model is trained on the data of this scene for a certain scene, the cache will work better. If you have real usage scenarios and relevant data sets, welcome to communicate with us.

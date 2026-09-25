@@ -7,7 +7,7 @@ from maqcache.embedding import Timm
 
 
 def test_timm():
-    url = 'https://raw.githubusercontent.com/zilliztech/GPTCache/main/docs/GPTCache.png'
+    url = 'https://raw.githubusercontent.com/error404compiled/MAQ-cahce/making-it-mine/docs/MAQCache.png'
     image_bytes = requests.get(url).content
     image_file = BytesIO(image_bytes)  # Convert image to file-like object
 

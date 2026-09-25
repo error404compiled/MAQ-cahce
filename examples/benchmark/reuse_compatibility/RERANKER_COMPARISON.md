@@ -5,7 +5,7 @@
 - 数据：`cases.jsonl` 全部 1,536 条；
 - Reranker：仓库内置 `SbertCrossencoderEvaluation` 的默认模型 `cross-encoder/quora-distilroberta-base`；
 - Reranker输入：`current_request` 与 `cached_request`，与仓库实现一致；
-- Reranker默认阈值：GPTCache `Config` 默认值 0.80；
+- Reranker默认阈值：MAQCache `Config` 默认值 0.80；
 - JEV：完整性与上下文增强版prompt，阈值0.70；
 - 主标签：`codex_adjudicated_labels.jsonl`；答案事实、计算、代码和推理正确性不参与标注；
 - 原始Reranker分数：`sbert_crossencoder_scores.jsonl`。

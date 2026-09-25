@@ -13,8 +13,8 @@ _conflict_name_dict = {
 class DocGen:
     def __init__(
         self,
-        lib_name="gptcache",
-        source_dir="../gptcache",
+        lib_name="maqcache",
+        source_dir="../maqcache",
         output_dir="references",
         skip_list=[],
     ):
@@ -33,7 +33,7 @@ class DocGen:
 
     @staticmethod
     def get_filename(input_str):
-        if input_str == "gptcache":
+        if input_str == "maqcache":
             return input_str
         suffix = os.path.splitext(input_str)[1][1:]
         for conflict_dir, conflict_names in _conflict_name_dict.items():
@@ -46,8 +46,8 @@ class DocGen:
     @staticmethod
     def cap(input_str):
         input_str = DocGen.get_filename(input_str)
-        if input_str == "gptcache":
-            return "GPTCache"
+        if input_str == "maqcache":
+            return "MAQCache"
         return str.join(" ", [i.capitalize() for i in input_str.split("_")])
 
     def model_name(self, input_str: str):
@@ -136,5 +136,5 @@ class DocGen:
 
 
 # if __name__ == "__main__":
-#     gen = DocGen(source_dir="/Users/derek/fubang/gptcache/gptcache", output_dir="/Users/derek/fubang/gptcache/docs/references")
+#     gen = DocGen(source_dir="/Users/derek/fubang/maqcache/maqcache", output_dir="/Users/derek/fubang/maqcache/docs/references")
 #     gen.generate()

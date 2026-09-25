@@ -22,9 +22,9 @@ from _exts.docgen2 import DocGen
 
 # -- Project information -----------------------------------------------------
 
-project = "GPTCache"
-copyright = "2023, Zilliz Inc"
-author = "Zilliz Inc."
+project = "MAQCache"
+copyright = "2026, MAQ Softwares"
+author = "MAQ Softwares"
 
 # The full version, including alpha/beta/rc tags
 release = "main"
@@ -103,15 +103,15 @@ html_theme = "sphinx_book_theme"
 
 html_theme_options = {
     "path_to_docs": "docs",
-    "repository_url": "https://github.com/zilliztech/GPTCache",
+    "repository_url": "https://github.com/error404compiled/MAQ-cahce",
     "use_repository_button": True,
 }
 
 html_context = {
     "display_github": True,  # Integrate GitHub
-    "github_user": "zilliztech",  # Username
-    "github_repo": "GPTCache",  # Repo name
-    "github_version": "main",  # Version
+    "github_user": "error404compiled",  # Username
+    "github_repo": "MAQ-cahce",  # Repo name
+    "github_version": "making-it-mine",  # Version
     "conf_py_path": "/docs/",  # Path in the checkout to the docs root
 }
 

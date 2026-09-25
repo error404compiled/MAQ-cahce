@@ -50,7 +50,7 @@ jev = LazyImport(
 )
 
 
-def OnnxModelEvaluation(model="MAQCache/albert-duplicate-onnx"):
+def OnnxModelEvaluation(model="GPTCache/albert-duplicate-onnx"):
     return onnx.OnnxModelEvaluation(model)
 
 

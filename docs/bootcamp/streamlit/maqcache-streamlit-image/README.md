@@ -1,5 +1,5 @@
-# GPTCache Demo for OpenAI Image Generation
-This project demonstrates how [GPTcache](https://github.com/zilliztech/GPTCache) can be used to save costs when using OpenAI’s DALL-E API. It provides a simple Streamlit app that allows users to input a prompt and see the corresponding DALL-E output image. The app uses a cache to store previously generated images and reuses them for the same prompt, thus avoiding making duplicate API calls. There is an online [demo](https://gptcache-openai-image.streamlit.app/) hosted for preview.
+# MAQCache Demo for OpenAI Image Generation
+This project demonstrates how [MAQcache](https://github.com/error404compiled/MAQ-cahce) can be used to save costs when using OpenAI’s DALL-E API. It provides a simple Streamlit app that allows users to input a prompt and see the corresponding DALL-E output image. The app uses a cache to store previously generated images and reuses them for the same prompt, thus avoiding making duplicate API calls. There is an online [demo](https://maqcache-openai-image.streamlit.app/) hosted for preview.
 
 ## Requirements
 * Python 3.6 or later 

@@ -127,7 +127,7 @@ def test_init_with_new_config():
         },
         "embedding": "onnx",
         "embedding_config": {
-            "model": "MAQCache/paraphrase-albert-onnx"
+            "model": "GPTCache/paraphrase-albert-onnx"
         },
         "evaluation": "distance",
         "evaluation_config": {

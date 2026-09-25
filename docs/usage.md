@@ -1,9 +1,9 @@
-# GPTCache Quick Start
+# MAQCache Quick Start
 
-GPTCache is easy to use and can reduce the latency of LLM queries by 100x in just two steps:
+MAQCache is easy to use and can reduce the latency of LLM queries by 100x in just two steps:
 
 1. __Build your cache.__ In particular, you'll need to decide on an embedding function, similarity evaluation function, where to store your data, and the eviction policy.
-2. __Choose your LLM.__ GPTCache currently supports OpenAI's ChatGPT (GPT3.5-turbo) and langchain. Langchain supports a variety of LLMs, such as Anthropic, Huggingface, and Cohere models.
+2. __Choose your LLM.__ MAQCache currently supports OpenAI's ChatGPT (GPT3.5-turbo) and langchain. Langchain supports a variety of LLMs, such as Anthropic, Huggingface, and Cohere models.
 
 ### Build your **Cache**
 
@@ -35,11 +35,11 @@ class Cache:
 
 ```
 
-Before creating a GPTCache, consider the following questions:
+Before creating a MAQCache, consider the following questions:
 
 1. How will you generate embeddings for queries? (`embedding_func`)
    
-    This function embeds text into a dense vector for context similarity search. GPTCache currently supports five methods for embedding context: OpenAI, Cohere, Huggingface, ONNX, and SentenceTransformers. We also provide a default string embedding method which serves as simple passthrough.
+    This function embeds text into a dense vector for context similarity search. MAQCache currently supports five methods for embedding context: OpenAI, Cohere, Huggingface, ONNX, and SentenceTransformers. We also provide a default string embedding method which serves as simple passthrough.
     
     For example, to use ONNX Embeddings, simply initialize your embedding function as `onnx.to_embeddings`.
     
@@ -54,15 +54,15 @@ Before creating a GPTCache, consider the following questions:
     cache.set_openai_key()
     ```
     
-    Check out more [examples](https://github.com/zilliztech/gpt-cache/tree/main/examples#How-to-set-the-embedding-function) to see how to use different embedding functions.
+    Check out more [examples](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#How-to-set-the-embedding-function) to see how to use different embedding functions.
     
 2. Where will you cache the data? (`data_manager` cache storage)
    
-    The cache storage stores all scalar data such as original questions, prompts, answers, and access times. GPTCache supports a number of cache storage options, such as SQLite, MySQL, and PostgreSQL. More NoSQL databases will be added in the future.
+    The cache storage stores all scalar data such as original questions, prompts, answers, and access times. MAQCache supports a number of cache storage options, such as SQLite, MySQL, and PostgreSQL. More NoSQL databases will be added in the future.
     
 3. Where will you store and search vector embeddings? (`data_manager` vector storage)
    
-    The vector storage component stores and searches across all embeddings to find the most similar results semantically. GPTCache supports the use of vector search libraries such as FAISS or vector databases such as Milvus. More vector databases and cloud services will be added in the future.
+    The vector storage component stores and searches across all embeddings to find the most similar results semantically. MAQCache supports the use of vector search libraries such as FAISS or vector databases such as Milvus. More vector databases and cloud services will be added in the future.
 
     Here are some examples:
 
@@ -77,15 +77,15 @@ Before creating a GPTCache, consider the following questions:
    data_manager = get_data_manager(CacheBase("mysql"), VectorBase("milvus", dimension=128), max_size=100, eviction='LRU') 
    ```
    
-   Check out more [examples](https://github.com/zilliztech/gpt-cache/tree/main/examples#How-to-set-the-data-manager-class) to see how to use different data managers.
+   Check out more [examples](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#How-to-set-the-data-manager-class) to see how to use different data managers.
 
 4. What is the eviction policy?
    
-    GPTCache supports evicting data based on cache count. You can choose to use either the LRU or FIFO policy. In the future, we plan to support additional cache policies, such as evicting data based on last access time or last write time.
+    MAQCache supports evicting data based on cache count. You can choose to use either the LRU or FIFO policy. In the future, we plan to support additional cache policies, such as evicting data based on last access time or last write time.
 
 5. How will you determine cache hits versus misses? (`evaluation_func`)
 
-   The evaluation function helps to determine whether the cached answer matches the input query. It takes three input values: `user request data`, `cached data`, and `user-defined parameters`. GPTCache currently supports three types of evaluation functions: exact match evaluation, embedding distance evaluation and ONNX model evaluation.
+   The evaluation function helps to determine whether the cached answer matches the input query. It takes three input values: `user request data`, `cached data`, and `user-defined parameters`. MAQCache currently supports three types of evaluation functions: exact match evaluation, embedding distance evaluation and ONNX model evaluation.
 
    To enable ONNX evaluation, simply pass `EvaluationOnnx` to `similarity_evaluation`. This allows you to run any model that can be served on ONNX. We will support Pytorch, TensorRT and the other inference engines in the future.
 
@@ -100,7 +100,7 @@ Before creating a GPTCache, consider the following questions:
    )
    ```
 
-   Check out our [examples](https://github.com/zilliztech/gpt-cache/tree/main/examples#How-to-set-the-similarity-evaluation-interface) page to see how to use different similarity evaluation functions.
+   Check out our [examples](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#How-to-set-the-similarity-evaluation-interface) page to see how to use different similarity evaluation functions.
 
 Users can also pass in other configuration options, such as:
 
@@ -109,7 +109,7 @@ Users can also pass in other configuration options, such as:
 
 ### **Chose your adapter**
 
-GPTCache currently supports two LLM adapters: OpenAI and Langchain.
+MAQCache currently supports two LLM adapters: OpenAI and Langchain.
 
 With the OpenAI adapter, you can specify the model you want to use and generate queries as a user role.
 
@@ -133,9 +133,9 @@ print(answer)
 Here's an example that utilizes OpenAI's stream response API:
 
 ```python
-from gptcache.manager import get_data_manager
-from gptcache.core import cache, Cache
-from gptcache.adapter import openai
+from maqcache.manager import get_data_manager
+from maqcache.core import cache, Cache
+from maqcache.adapter import openai
 
 cache.init(data_manager=get_data_manager())
 os.environ["OPENAI_API_KEY"] = "API KEY"
@@ -248,10 +248,10 @@ openai.ChatCompletion.create(
 )
 ```
 
-**session:** Specify the sesion of the current request, you can also set some rules to check if the session hits the cache, see this [example](https://github.com/zilliztech/GPTCache/tree/main/examples#How-to-run-with-session) for more details.
+**session:** Specify the sesion of the current request, you can also set some rules to check if the session hits the cache, see this [example](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#How-to-run-with-session) for more details.
 
 ```python
-from gptcache.session import Session
+from maqcache.session import Session
 
 session = Session(name="my-session")
 question = "what do you think about chatgpt"
@@ -277,12 +277,12 @@ openai.ChatCompletion.create(
 ```python
 import time
 
-from gptcache import cache, Config
-from gptcache.manager import manager_factory
-from gptcache.embedding import Onnx
-from gptcache.processor.post import temperature_softmax
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
-from gptcache.adapter import openai
+from maqcache import cache, Config
+from maqcache.manager import manager_factory
+from maqcache.embedding import Onnx
+from maqcache.processor.post import temperature_softmax
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.adapter import openai
 
 cache.set_openai_key()
 
@@ -313,27 +313,28 @@ for _ in range(3):
     print("Answer:", response["choices"][0]["message"]["content"])
 ```
 
-### Use GPTCache server
+### Use MAQCache server
 
-GPTCache now supports building a server with caching and conversation capabilities. You can start a customized GPTCache service within a few lines. Here is a simple example to show how to build and interact with GPTCache server. For more detailed information, arguments, parameters, refer to [this](https://github.com/zilliztech/gpt-cache/tree/main/examples).
+MAQCache now supports building a server with caching and conversation capabilities. You can start a customized MAQCache service within a few lines. Here is a simple example to show how to build and interact with MAQCache server. For more detailed information, arguments, parameters, refer to [this](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples).
 
 **Start server**
 
-Once you have GPTCache installed, you can start the server with following command:
+Once you have MAQCache installed, you can start the server with following command:
 ```shell
-$ gptcache_server -s 127.0.0.1 -p 8000
+$ maqcache_server -s 127.0.0.1 -p 8000
 ```
 
 **Start server with docker**
 
 ```shell
-$ docker pull zilliz/gptcache:latest
-$ docker run -p 8000:8000 -it zilliz/gptcache:latest
+# build from source until an internal registry image is published
+$ docker build -t maqcache -f maqcache_server/dockerfiles/Dockerfile .
+$ docker run -p 8000:8000 -it maqcache
 ```
 
 **Interact with the server**
 
-GPTCache supports two ways of interaction with the server:
+MAQCache supports two ways of interaction with the server:
 
 - With command line:
 
@@ -366,7 +367,7 @@ curl -X 'POST' \
 - With python client:
 
 ```python
- >>> from gptcache.client import Client
+ >>> from maqcache.client import Client
 
  >>> client = Client(uri="http://localhost:8000")
  >>> client.put("Hi", "Hi back")

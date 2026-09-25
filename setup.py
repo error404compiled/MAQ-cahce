@@ -38,8 +38,8 @@ setuptools.setup(
     name="maqcache",
     packages=find_packages(),
     version=find_version("maqcache", "__init__.py"),
-    author="SimFG",
-    author_email="bang.fu@zilliz.com",
+    author="MAQ Softwares",
+    author_email="engineering@maqsoftware.net",
     description="MAQCache, a powerful caching library that can be used to speed up and lower the cost of chat "
                 "applications that rely on the LLM service. MAQCache works as a memcache for AIGC applications, "
                 "similar to how Redis works for traditional applications.",

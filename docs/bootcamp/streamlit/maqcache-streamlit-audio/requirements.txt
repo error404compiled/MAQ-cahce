@@ -1,7 +1,8 @@
-gptcache
+maqcache
 pillow
 streamlit
-onnxruntime
+torch
 faiss-cpu
+torchaudio
 transformers
 sqlalchemy

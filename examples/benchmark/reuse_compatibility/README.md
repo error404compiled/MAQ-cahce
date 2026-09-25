@@ -1,4 +1,4 @@
-# GPTCache Reuse Compatibility Benchmark
+# MAQCache Reuse Compatibility Benchmark
 
 这个 benchmark 判断一个缓存回答能否**原样复用于当前请求**。它只检查：
 
@@ -34,7 +34,7 @@
 ## 标注方法
 
 - 全部1,536条由独立于JEV的模型在看不到JEV分数和原始等价类标签的情况下逐条标注；
-- 首轮与GPTCache决定冲突的236条，由第二个模型重新盲审；
+- 首轮与MAQCache决定冲突的236条，由第二个模型重新盲审；
 - 6条把“答案正确性”误当成“缓存兼容性”的边界案例经过人工范围修正；
 - 最终标签：`reuse` 505条、`reject` 1,027条、`uncertain` 4条。
 
@@ -116,7 +116,7 @@ JEV=... .venv/bin/python examples/benchmark/reuse_compatibility/benchmark.py run
 ```
 
 JEV调用逐条落盘，可使用同一个输出文件断点续跑。评分时要求预测文件完整覆盖1,536个UID；API错误按拒绝处理并单独计数。
-基线使用的完整问题定义保存在本次提交的 `gptcache/similarity_evaluation/jev.py`，其SHA-256同时记录在 `manifest.json`。
+基线使用的完整问题定义保存在本次提交的 `maqcache/similarity_evaluation/jev.py`，其SHA-256同时记录在 `manifest.json`。
 
 ## 指标定义
 

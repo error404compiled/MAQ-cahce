@@ -31,7 +31,7 @@ class OnnxModelEvaluation(SimilarityEvaluation):
 
     This evaluator use the ONNX model to evaluate the similarity of two sentences.
 
-    :param model: model name of OnnxModelEvaluation. Default is 'MAQCache/albert-duplicate-onnx'.
+    :param model: model name of OnnxModelEvaluation. Default is 'GPTCache/albert-duplicate-onnx'.
     :type model: str
 
     Example:
@@ -50,7 +50,9 @@ class OnnxModelEvaluation(SimilarityEvaluation):
             )
     """
 
-    def __init__(self, model: str = "MAQCache/albert-duplicate-onnx"):
+    def __init__(self, model: str = "GPTCache/albert-duplicate-onnx"):
+        # NOTE: this is a real HuggingFace Hub repo id (hosted by the upstream
+        # GPTCache project), not our package name - do not rename to maqcache.
         tokenizer_name = "albert-base-v2"
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
         self.model = model

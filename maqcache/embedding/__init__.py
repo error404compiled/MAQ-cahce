@@ -48,7 +48,7 @@ def SBERT(model="all-MiniLM-L6-v2"):
     return sbert.SBERT(model)
 
 
-def Onnx(model="MAQCache/paraphrase-albert-onnx"):
+def Onnx(model="GPTCache/paraphrase-albert-onnx"):
     return onnx.Onnx(model)
 
 

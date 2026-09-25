@@ -25,18 +25,20 @@ class Onnx(BaseEmbedding):
             from maqcache.embedding import Onnx
 
             test_sentence = 'Hello, world.'
-            encoder = Onnx(model='MAQCache/paraphrase-albert-onnx')
+            encoder = Onnx(model='GPTCache/paraphrase-albert-onnx')
             embed = encoder.to_embeddings(test_sentence)
     """
 
-    def __init__(self, model="MAQCache/paraphrase-albert-onnx"):
-        tokenizer_name = "MAQCache/paraphrase-albert-small-v2"
+    def __init__(self, model="GPTCache/paraphrase-albert-onnx"):
+        # NOTE: this is a real HuggingFace Hub repo id (hosted by the upstream
+        # GPTCache project), not our package name - do not rename to maqcache.
+        tokenizer_name = "GPTCache/paraphrase-albert-small-v2"
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
         self.model = model
         onnx_model_path = hf_hub_download(repo_id=model, filename="model.onnx")
         self.ort_session = onnxruntime.InferenceSession(onnx_model_path)
         config = AutoConfig.from_pretrained(
-            "MAQCache/paraphrase-albert-small-v2"
+            "GPTCache/paraphrase-albert-small-v2"
         )
         self.__dimension = config.hidden_size
 

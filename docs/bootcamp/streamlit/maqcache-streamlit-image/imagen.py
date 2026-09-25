@@ -6,19 +6,19 @@ import base64
 from io import BytesIO
 import requests
 
-from gptcache import cache
-from gptcache.manager import get_data_manager, CacheBase, VectorBase, ObjectBase
-from gptcache.adapter import openai
-from gptcache.processor.pre import get_prompt
-from gptcache.embedding import Onnx
-from gptcache.similarity_evaluation import ExactMatchEvaluation
+from maqcache import cache
+from maqcache.manager import get_data_manager, CacheBase, VectorBase, ObjectBase
+from maqcache.adapter import openai
+from maqcache.processor.pre import get_prompt
+from maqcache.embedding import Onnx
+from maqcache.similarity_evaluation import ExactMatchEvaluation
 
-st.title('GPTCache for Image Demo')
+st.title('MAQCache for Image Demo')
 
 @st.cache_resource
 def initialize_configuration():
     onnx = Onnx()
-    data_manager = get_data_manager(CacheBase('sqlite', sql_url='sqlite:///./local/gptcache10.db'),
+    data_manager = get_data_manager(CacheBase('sqlite', sql_url='sqlite:///./local/maqcache10.db'),
                                     VectorBase('faiss', dimension=onnx.dimension, index_path='./local/faiss10.index'),
                                     ObjectBase('local', path='./local'))
     cache.init(
@@ -41,7 +41,7 @@ def api_call(text_input, open_ai_key):
     )
     image_url = response['data'][0]['url']
 
-    is_cached = response.get('gptcache', False)
+    is_cached = response.get('maqcache', False)
     if is_cached is False:
         response = requests.get(image_url)
         img = Image.open(BytesIO(response.content))

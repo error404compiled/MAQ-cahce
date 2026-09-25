@@ -1,5 +1,5 @@
-# GPTCache Demo for OpenAI Audio Transcription
-This project demonstrates how [GPTcache](https://github.com/zilliztech/GPTCache) can be used to save costs when using OpenAI’s audio transcription API. It provides a simple Streamlit app that allows users to input an audio file and see the corresponding transcribed text. The app uses a cache to store previously generated transcriptions and reuses them for the same audio file, thus avoiding making duplicate API calls.
+# MAQCache Demo for OpenAI Audio Transcription
+This project demonstrates how [MAQcache](https://github.com/error404compiled/MAQ-cahce) can be used to save costs when using OpenAI’s audio transcription API. It provides a simple Streamlit app that allows users to input an audio file and see the corresponding transcribed text. The app uses a cache to store previously generated transcriptions and reuses them for the same audio file, thus avoiding making duplicate API calls.
 
 ## Requirements
 * Python 3.6 or later 

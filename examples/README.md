@@ -12,16 +12,16 @@
   - [How to run with session](#how-to-run-with-session)
     - [Run in `with` method](#run-in-with-method)
     - [Custom Session](#custom-session)
-  - [How to use GPTCache server](#how-to-use-gptcache-server)
+  - [How to use MAQCache server](#how-to-use-maqcache-server)
     - [Start server](#start-server)
   - [Benchmark](#benchmark)
   - [How to use post-process function](#how-to-use-post-process-function)
 
 ## How to run Visual Question Answering with MiniGPT-4
 
-You can run [vqa_demo.py](./vqa_demo.py) to implement the image Q&A, which uses MiniGPT-4 for generating answers and then GPTCache to cache the answers.
+You can run [vqa_demo.py](./vqa_demo.py) to implement the image Q&A, which uses MiniGPT-4 for generating answers and then MAQCache to cache the answers.
 
->  Note that you need to make sure that [minigpt4](https://github.com/Vision-CAIR/MiniGPT-4) and [gptcache](https://gptcache.readthedocs.io/en/dev/index.html) are successfully installed, and move the **vqa_demo.py** file to the MiniGPT-4 directory.
+>  Note that you need to make sure that [minigpt4](https://github.com/Vision-CAIR/MiniGPT-4) and [maqcache](https://gptcache.readthedocs.io/en/dev/index.html) are successfully installed, and move the **vqa_demo.py** file to the MiniGPT-4 directory.
 
 ```bash
 $ python vqa_demo.py --cfg-path eval_configs/minigpt4_eval.yaml  --gpu-id 0
@@ -42,7 +42,7 @@ $ python vqa_demo.py --cfg-path eval_configs/minigpt4_eval.yaml  --gpu-id 0 --di
 
 > Please note that not all data managers are compatible with an embedding function.
 
-### [Default embedding function](https://github.com/zilliztech/GPTCache/blob/main/examples/embedding/default.py)
+### [Default embedding function](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/embedding/default.py)
 
 Nothing to do. Only `map data` manager can be configured for use. 
 
@@ -53,15 +53,15 @@ def to_embeddings(data, **kwargs):
 
 ### Suitable for embedding methods consisting of a cached storage and vector store
 
-**[ONNX](https://github.com/zilliztech/GPTCache/blob/main/examples/embedding/onnx.py)**
+**[ONNX](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/embedding/onnx.py)**
 
 > When creating an Embedding object, the model will be loaded. It is important to remember to pass the dimension to the data manager.
 
 ```python
-from gptcache.core import cache, Config
-from gptcache.manager import get_data_manager, CacheBase, VectorBase
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
-from gptcache.embedding import Onnx
+from maqcache.core import cache, Config
+from maqcache.manager import get_data_manager, CacheBase, VectorBase
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.embedding import Onnx
 
 onnx = Onnx()
 data_manager = get_data_manager(CacheBase("sqlite"), VectorBase("faiss", dimension=onnx.dimension))
@@ -79,7 +79,7 @@ cache.set_openai_key()
 <summary> OpenAI </summary>
 
 ```python
-from gptcache.embedding import OpenAI
+from maqcache.embedding import OpenAI
 
 openai = OpenAI()
 # openai.dimension
@@ -93,7 +93,7 @@ openai = OpenAI()
 <summary> Huggingface </summary>
 
 ```python
-from gptcache.embedding import Huggingface
+from maqcache.embedding import Huggingface
 
 huggingface = Huggingface()
 # huggingface.dimension
@@ -107,7 +107,7 @@ huggingface = Huggingface()
 <summary> Cohere </summary>
 
 ```python
-from gptcache.embedding import Cohere
+from maqcache.embedding import Cohere
 
 cohere = Cohere()
 # cohere.dimension
@@ -121,7 +121,7 @@ cohere = Cohere()
 <summary> SentenceTransformer </summary>
 
 ```python
-from gptcache.embedding import SBERT
+from maqcache.embedding import SBERT
 
 sbert = SBERT()
 # sbert.dimension
@@ -135,7 +135,7 @@ sbert = SBERT()
 <summary> FastText </summary>
 
 ```python
-from gptcache.embedding import FastText
+from maqcache.embedding import FastText
 
 fast_text = FastText()
 # fast_text.dimension
@@ -149,7 +149,7 @@ fast_text = FastText()
 <summary> PaddleNLP </summary>
 
 ```python
-from gptcache.embedding import PaddleNLP
+from maqcache.embedding import PaddleNLP
 
 paddlenlp = PaddleNLP()
 # paddlenlp.dimension
@@ -216,8 +216,8 @@ class Cohere:
 Store all data in a map data structure, using the question as the key.
 
 ```python
-from gptcache.manager import get_data_manager
-from gptcache import cache
+from maqcache.manager import get_data_manager
+from maqcache import cache
 
 data_manager = get_data_manager()
 cache.init(data_manager=data_manager)
@@ -229,9 +229,9 @@ cache.set_openai_key()
 The user's question and answer data can be stored in a general database such as SQLite or MySQL, while the vector obtained through the question text embedding is stored in a separate vector database.
 
 ```python
-from gptcache import cache
-from gptcache.manager import get_data_manager, CacheBase, VectorBase
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache
+from maqcache.manager import get_data_manager, CacheBase, VectorBase
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 import numpy as np
 
 d = 8
@@ -260,7 +260,7 @@ Support general database
 - Oracle.
 - DynamoDB
 
-> [Example code](https://github.com/zilliztech/GPTCache/blob/main/examples/data_manager/scalar_store.py)
+> [Example code](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/data_manager/scalar_store.py)
 
 Support vector database
 
@@ -269,17 +269,17 @@ Support vector database
 - FAISS
 - ChromaDB
 
-> [Example code](https://github.com/zilliztech/GPTCache/blob/main/examples/data_manager/vector_store.py)
+> [Example code](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/data_manager/vector_store.py)
 
 **Custom Store**
 
-First, you need to implement two interfaces, namely [`CacheStorage`](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/scalar_data/base.py) and [`VectorBase`](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/vector_data/base.py), and then create the corresponding data manager through the `get_data_manager` method.
+First, you need to implement two interfaces, namely [`CacheStorage`](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/scalar_data/base.py) and [`VectorBase`](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/vector_data/base.py), and then create the corresponding data manager through the `get_data_manager` method.
 
-Reference: [CacheStorage sqlalchemy](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/scalar_data/sqlalchemy.py) [VectorBase Faiss](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/vector_data/faiss.py)
+Reference: [CacheStorage sqlalchemy](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/scalar_data/sqlalchemy.py) [VectorBase Faiss](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/vector_data/faiss.py)
 
 ```python
-from gptcache import cache
-from gptcache.manager import get_data_manager
+from maqcache import cache
+from maqcache.manager import get_data_manager
 
 data_manager=get_data_manager(cache_base=CustomCacheStore(), vector_base=CustomVectorStore())
 cache.init(data_manager=data_manager)
@@ -287,13 +287,13 @@ cache.init(data_manager=data_manager)
 
 ## How to set the `similarity evaluation` interface
 
-**[ExactMatchEvaluation, default](https://github.com/zilliztech/GPTCache/blob/main/examples/similarity_evaluation/exact_match.py)**
+**[ExactMatchEvaluation, default](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/similarity_evaluation/exact_match.py)**
 
 Exact match between two questions, currently only available for map data manager.
 
 ```python
-from gptcache import cache
-from gptcache.similarity_evaluation.exact_match import ExactMatchEvaluation
+from maqcache import cache
+from maqcache.similarity_evaluation.exact_match import ExactMatchEvaluation
 
 cache.init(
            similarity_evaluation=ExactMatchEvaluation(),
@@ -303,13 +303,13 @@ cache.set_openai_key()
 
 <details>
 
-<summary> <strong><a href="https://github.com/zilliztech/GPTCache/blob/main/examples/similarity_evaluation/search_distance.py">SearchDistanceEvaluation</a></strong> </summary>
+<summary> <strong><a href="https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/similarity_evaluation/search_distance.py">SearchDistanceEvaluation</a></strong> </summary>
 
 Using search distance to evaluate sentences pair similarity.
 
 ```python
-from gptcache import cache
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
 cache.init(
            similarity_evaluation=SearchDistanceEvaluation(),
@@ -321,13 +321,13 @@ cache.set_openai_key()
 
 <details>
 
-<summary> <strong><a href="https://github.com/zilliztech/GPTCache/blob/main/examples/similarity_evaluation/onnx.py">OnnxModelEvaluation</a></strong> </summary>
+<summary> <strong><a href="https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/similarity_evaluation/onnx.py">OnnxModelEvaluation</a></strong> </summary>
 
 Using ONNX model to evaluate sentences pair similarity.
 
 ```python
-from gptcache import cache
-from gptcache.similarity_evaluation.onnx import OnnxModelEvaluation
+from maqcache import cache
+from maqcache.similarity_evaluation.onnx import OnnxModelEvaluation
 
 cache.init(
            similarity_evaluation=OnnxModelEvaluation(),
@@ -344,8 +344,8 @@ cache.set_openai_key()
 Using Numpy norm to evaluate sentences pair similarity.
 
 ```python
-from gptcache import cache
-from gptcache.similarity_evaluation.np import NumpyNormEvaluation
+from maqcache import cache
+from maqcache.similarity_evaluation.np import NumpyNormEvaluation
 
 cache.init(
            similarity_evaluation=NumpyNormEvaluation(),
@@ -362,7 +362,7 @@ To meet the requirements, you will need to implement the `SimilarityEvaluation` 
 - evaluation, The function takes three input values, namely user request data, cache data, and user-defined data. The last parameter, by using kwargs.get("evaluation_func", {}), is reserved for users.
 - range, The return of the range function needs to return two values, which are the minimum and maximum values.
 
-Reference: [similarity evaluation dir](https://github.com/zilliztech/GPTCache/tree/main/gptcache/similarity_evaluation)
+Reference: [similarity evaluation dir](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/maqcache/similarity_evaluation)
 
 <details>
 
@@ -410,8 +410,8 @@ Reference: [similarity evaluation dir](https://github.com/zilliztech/GPTCache/tr
 - **next_cache**: This points to the next cache object, which is useful for implementing multi-level cache functions.
 
   ```python
-  from gptcache import cache, Cache
-  from gptcache.manager import get_data_manager 
+  from maqcache import cache, Cache
+  from maqcache.manager import get_data_manager 
   
   bak_cache = Cache()
   bak_data_file = "data_map_bak.txt"
@@ -492,7 +492,7 @@ Session can isolate the context of each connection, and can also filter the resu
 First we need to initialize the cache:
 
 ```python
-from gptcache import cache
+from maqcache import cache
 
 cache.init()
 cache.set_openai_key()
@@ -503,7 +503,7 @@ Then we can set the session parameter for each request.
 ### Run in `with` method
 
 ```python
-from gptcache.session import Session
+from maqcache.session import Session
 
 with Session() as session:
     response = openai.ChatCompletion.create(
@@ -535,10 +535,10 @@ You can customize the `name` of the sesion, and the `check_hit_func` method to c
 
 > The default `check_hit_func` returns `cur_session_id not in cache_session_ids`, which means that the answers returned cannot be in the same session.
 
-In the following code,  `my_check_hit` is defined to check if the cached answer contains "GitHub", and return `True` if it does, then gptcache will continue with the subsequent evaluation operations, and if it does not contain it will return `False` and will re-run the request.
+In the following code,  `my_check_hit` is defined to check if the cached answer contains "GitHub", and return `True` if it does, then maqcache will continue with the subsequent evaluation operations, and if it does not contain it will return `False` and will re-run the request.
 
 ```python
-from gptcache.session import Session
+from maqcache.session import Session
 
 def my_check_hit_func(cur_session_id, cache_session_ids, cache_questions, cache_answer):
     if "GitHub" in cache_answer:
@@ -560,23 +560,23 @@ response = openai.ChatCompletion.create(
 
 And you can also run `data_manager.list_sessions` to list all the sessions.
 
-## How to use GPTCache server
+## How to use MAQCache server
 
-GPTCache now supports building a server with caching and conversation capabilities. You can start a customized GPTCache service within a few lines.
+MAQCache now supports building a server with caching and conversation capabilities. You can start a customized MAQCache service within a few lines.
 
 ### Start server
 
-Once you have GPTCache installed, you can start the server with following command:
+Once you have MAQCache installed, you can start the server with following command:
 ```shell
-$ gptcache_server -s [HOST] -p [PORT] -d [CACHE_DIRECTORY] -f [CACHE_CONFIG_FILE]
+$ maqcache_server -s [HOST] -p [PORT] -d [CACHE_DIRECTORY] -f [CACHE_CONFIG_FILE]
 ```
 The args are optional:
-- -s/--host: Specify the host to start GPTCache service, defaults to "0.0.0.0".
+- -s/--host: Specify the host to start MAQCache service, defaults to "0.0.0.0".
 - -p/--port: Specify the port to access to the service, defaults to 8000.
-- -d/--cache-dir: Specify the directory of the cache, defaults to `gptcache_data` folder.
-- -f/--cache-config-file: Specify the YAML file to config GPTCache service, defaults to None.
+- -d/--cache-dir: Specify the directory of the cache, defaults to `maqcache_data` folder.
+- -f/--cache-config-file: Specify the YAML file to config MAQCache service, defaults to None.
 
-**GPTCache server configuration**
+**MAQCache server configuration**
 
 You can config the server via a YAML file, here is an example config yaml:
 
@@ -587,7 +587,7 @@ embedding_config:
     # Set embedding model params here
 storage_config:
     data_dir:
-        gptcache_data
+        maqcache_data
     manager:
         sqlite,faiss
     vector_params:
@@ -614,26 +614,26 @@ config:
 - post_function: The post-processing function.
 - config: The cache config, like `similarity_threshold`
 
-**Use the docker to start the GPTCache server**
+**Use the docker to start the MAQCache server**
 
 Also, you can start the service in a docker container:
 
-- Get image from the dockerhub
+- Build the image from source (until an internal registry image is published)
     ```shell
-    $ docker pull zilliz/gptcache:latest
+    $ docker build -t maqcache -f maqcache_server/dockerfiles/Dockerfile .
     ```
 - Run the service in a container with default port
     ```shell
-    $ docker run -p 8000:8000 -it zilliz/gptcache:latest
+    $ docker run -p 8000:8000 -it maqcache
     ```
-- Run the service in a container with certain port (e.g. 8000) and config file (e.g. gptcache.yml)
+- Run the service in a container with certain port (e.g. 8000) and config file (e.g. maqcache.yml)
     ```shell
-    $ docker run -p 8000:8000 -it gptcache:v0 gptcache_server -s 0.0.0.0 -p 8000 -f gptcache.yml
+    $ docker run -p 8000:8000 -it maqcache maqcache_server -s 0.0.0.0 -p 8000 -f maqcache.yml
     ```
 
 **Interact with the server**
 
-GPTCache supports two ways of interaction with the server:
+MAQCache supports two ways of interaction with the server:
 
 - With command line:
 
@@ -666,7 +666,7 @@ curl -X 'POST' \
 - With python client:
 
 ```python
- >>> from gptcache.client import Client
+ >>> from maqcache.client import Client
 
  >>> client = Client(uri="http://localhost:8000")
  >>> client.put("Hi", "Hi back")
@@ -675,18 +675,18 @@ curl -X 'POST' \
  'Hi back'
  ```
 
-## [Benchmark](https://github.com/zilliztech/GPTCache/tree/main/examples/benchmark/benchmark_sqlite_faiss_onnx.py)
+## [Benchmark](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/benchmark/benchmark_sqlite_faiss_onnx.py)
 
 The benchmark script about the `Sqlite + Faiss + ONNX`
 
-[Test data source](https://github.com/zilliztech/GPTCache/tree/main/examples/benchmark/mock_data.json): Randomly scrape some information from the webpage (origin), and then let chatgpt produce corresponding data (similar).
+[Test data source](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/benchmark/mock_data.json): Randomly scrape some information from the webpage (origin), and then let chatgpt produce corresponding data (similar).
 
 - **threshold**: answer evaluation threshold, A smaller value means higher consistency with the content in the cache, a lower cache hit rate, and a lower cache miss hit; a larger value means higher tolerance, a higher cache hit rate, and at the same time also have higher cache misses.
 - **positive**: effective cache hit, which means entering `similar` to search and get the same result as `origin`
 - **negative**: cache hit but the result is wrong, which means entering `similar` to search and get the different result as `origin`
 - **fail count**: cache miss
 
-data file: [mock_data.json](https://github.com/zilliztech/GPTCache/tree/main/examples/benchmark/mock_data.json)
+data file: [mock_data.json](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/benchmark/mock_data.json)
 similarity evaluation func: pair_evaluation (search distance)
 
  | threshold | average time | positive | negative | fail count |
@@ -700,7 +700,7 @@ You can use the LlmVerifier() function to process the cached answer list after r
 Example usage:
 
 ```python
-from gptcache.processor.post import post
+from maqcache.processor.post import post
 
 # ... (init cache, embedding, data_manager, etc.)
 

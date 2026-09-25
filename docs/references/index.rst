@@ -6,7 +6,7 @@
    :caption: Contents:
 
 
-   gptcache
+   maqcache
    processor
    embedding
    utils

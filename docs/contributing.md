@@ -1,7 +1,7 @@
-# 😍 Contributing to GPTCache
+# 😍 Contributing to MAQCache
 
-Before contributing to GPTCache, it is recommended to read the [usage doc](https://github.com/zilliztech/GPTCache/blob/main/docs/usage.md) [example-doc](https://github.com/zilliztech/GPTCache/blob/main/examples/README.md).
-These two articles will introduce how to use GPTCache and the meaning of parameters of related functions.
+Before contributing to MAQCache, it is recommended to read the [usage doc](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/docs/usage.md) [example-doc](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/README.md).
+These two articles will introduce how to use MAQCache and the meaning of parameters of related functions.
 
 In the process of contributing, pay attention to **the parameter type**, because there is currently no type restriction added.
 
@@ -25,9 +25,9 @@ First check which part you want to contribute:
 # The __init__.py file of the same directory under the new file
 __all__ = ['Milvus']
 
-from gptcache.utils.lazy_import import LazyImport
+from maqcache.utils.lazy_import import LazyImport
 
-milvus = LazyImport('milvus', globals(), 'gptcache.cache.vector_data.milvus')
+milvus = LazyImport('milvus', globals(), 'maqcache.cache.vector_data.milvus')
 
 
 def Milvus(**kwargs):
@@ -39,7 +39,7 @@ def Milvus(**kwargs):
 # add new method to utils/__init__.py
 __all__ = ['import_pymilvus']
 
-from gptcache.utils.dependency_control import prompt_install
+from maqcache.utils.dependency_control import prompt_install
 
 
 def import_pymilvus():
@@ -51,17 +51,17 @@ def import_pymilvus():
         import pymilvus  # pylint: disable=ungrouped-imports
 
 # 2.2 use the import method in your file
-from gptcache.util import import_pymilvus
+from maqcache.util import import_pymilvus
 import_pymilvus()
 ```
 
 ## Add a method to pre-process the llm request
 
-refer to the implementation of [Pre](https://github.com/zilliztech/GPTCache/blob/main/gptcache/processor/pre.py).
+refer to the implementation of [Pre](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/processor/pre.py).
 
 1. Make sure the input params, the `data` represents the original request dictionary object
 2. Implement the post method
-3. Add a usage example to [example](https://github.com/zilliztech/GPTCache/blob/main/examples) directory and add the corresponding content to [example.md](https://github.com/zilliztech/GPTCache/blob/main/examples/README.md) [README.md](https://github.com/zilliztech/GPTCache/blob/main/README.md)
+3. Add a usage example to [example](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples) directory and add the corresponding content to [example.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/README.md) [README.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/README.md)
 
 ```python
 # The origin openai request
@@ -84,46 +84,46 @@ def last_content(data, **_):
 
 ## Add a cache storage type
 
-refer to the implementation of [SQLDataBase](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/scalar_data/sqlalchemy.py).
+refer to the implementation of [SQLDataBase](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/scalar_data/sqlalchemy.py).
 
-1. Implement the [CacheStorage](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/scalar_data/base.py) interface
+1. Implement the [CacheStorage](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/scalar_data/base.py) interface
 2. Make sure the newly added third-party libraries are lazy imported and automatic installation
-4. Add the new store to the [CacheBase](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/scalar_data/manager.py) method
-5. Add a usage example to [example](https://github.com/zilliztech/GPTCache/tree/main/examples/data_manager) directory and add the corresponding content to [example.md](https://github.com/zilliztech/GPTCache/blob/main/examples/README.md) [README.md](https://github.com/zilliztech/GPTCache/blob/main/README.md)
+4. Add the new store to the [CacheBase](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/scalar_data/manager.py) method
+5. Add a usage example to [example](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/data_manager) directory and add the corresponding content to [example.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/README.md) [README.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/README.md)
 
 ## Add a vector store type
 
-refer to the implementation of [milvus](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/vector_data/milvus.py).
+refer to the implementation of [milvus](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/vector_data/milvus.py).
 
-1. Implement the [VectorBase](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/vector_data/base.py) interface
+1. Implement the [VectorBase](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/vector_data/base.py) interface
 2. Make sure the newly added third-party libraries are lazy imported and automatic installation
-3. Add the new store to the [VectorBase](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/vector_data/manager.py) method
-4. Add a usage example to [example](https://github.com/zilliztech/GPTCache/tree/main/examples/data_manager) directory and add the corresponding content to [example.md](https://github.com/zilliztech/GPTCache/blob/main/examples/README.md) [README.md](https://github.com/zilliztech/GPTCache/blob/main/README.md)
+3. Add the new store to the [VectorBase](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/vector_data/manager.py) method
+4. Add a usage example to [example](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/data_manager) directory and add the corresponding content to [example.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/README.md) [README.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/README.md)
 
 ## Add a new data manager
 
-refer to the implementation of [MapDataManager, SSDataManager](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/data_manager.py).
+refer to the implementation of [MapDataManager, SSDataManager](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/data_manager.py).
 
-1. Implement the [DataManager](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/data_manager.py) interface
-2. Add the new store to the [get_data_manager](https://github.com/zilliztech/GPTCache/blob/main/gptcache/manager/data_manager.py) method
-3. Add a usage example to [example](https://github.com/zilliztech/GPTCache/tree/main/examples/data_manager) directory and add the corresponding content to [example.md](https://github.com/zilliztech/GPTCache/blob/main/examples/README.md) [README.md](https://github.com/zilliztech/GPTCache/blob/main/README.md)
+1. Implement the [DataManager](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/data_manager.py) interface
+2. Add the new store to the [get_data_manager](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/manager/data_manager.py) method
+3. Add a usage example to [example](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/data_manager) directory and add the corresponding content to [example.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/README.md) [README.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/README.md)
 
 ## Add a embedding function
 
-refer to the implementation of [cohere](https://github.com/zilliztech/GPTCache/blob/main/gptcache/embedding/cohere.py) or [openai](https://github.com/zilliztech/GPTCache/blob/main/gptcache/embedding/openai.py).
+refer to the implementation of [cohere](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/embedding/cohere.py) or [openai](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/embedding/openai.py).
 
-1. Add a new python file to [embedding](https://github.com/zilliztech/GPTCache/tree/main/gptcache/embedding) directory
+1. Add a new python file to [embedding](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/maqcache/embedding) directory
 2. Make sure the newly added third-party libraries are lazy imported and automatic installation
 3. Implement the embedding function and **make sure** your output dimension
-4. Add a usage example to [example](https://github.com/zilliztech/GPTCache/tree/main/examples/embedding) directory and add the corresponding content to [example.md](https://github.com/zilliztech/GPTCache/blob/main/examples/README.md) [README.md](https://github.com/zilliztech/GPTCache/blob/main/README.md)
+4. Add a usage example to [example](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples/embedding) directory and add the corresponding content to [example.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/README.md) [README.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/README.md)
 
 ## Add a similarity evaluation function
 
-refer to the implementation of [SearchDistanceEvaluation](https://github.com/zilliztech/GPTCache/blob/main/gptcache/similarity_evaluation/distance.py) or [OnnxModelEvaluation](https://github.com/zilliztech/GPTCache/blob/main/gptcache/similarity_evaluation/onnx.py)
+refer to the implementation of [SearchDistanceEvaluation](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/similarity_evaluation/distance.py) or [OnnxModelEvaluation](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/similarity_evaluation/onnx.py)
 
-1. Implement the [SimilarityEvaluation](https://github.com/zilliztech/GPTCache/blob/main/gptcache/similarity_evaluation/similarity_evaluation.py) interface
+1. Implement the [SimilarityEvaluation](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/similarity_evaluation/similarity_evaluation.py) interface
 2. Make sure the range of return value, the `range` method return the min and max value
-3. Make sure the input params of `evaluation`, you can learn more about in the [user view](https://github.com/zilliztech/GPTCache/blob/main/gptcache/adapter/openai.py) model
+3. Make sure the input params of `evaluation`, you can learn more about in the [user view](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/adapter/openai.py) model
 ```python
 rank = chat_cache.evaluation_func({
     "question": pre_embedding_data,
@@ -136,16 +136,16 @@ rank = chat_cache.evaluation_func({
 ```
 4. Make sure the newly added third-party libraries are lazy imported and automatic installation
 5. Implement the similarity evaluation function
-6. Add a usage example to [example](https://github.com/zilliztech/GPTCache/blob/main/examples) directory and add the corresponding content to [example.md](https://github.com/zilliztech/GPTCache/blob/main/examples/README.md) [README.md](https://github.com/zilliztech/GPTCache/blob/main/README.md)
+6. Add a usage example to [example](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples) directory and add the corresponding content to [example.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/README.md) [README.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/README.md)
 
 ## Add a method to post-process the cache answer list
 
-refer to the implementation of [first or random_one](https://github.com/zilliztech/GPTCache/blob/main/gptcache/processor/post.py)
+refer to the implementation of [first or random_one](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/processor/post.py)
 
-1. Make sure the input params, you can learn more about in the [adapter](https://github.com/zilliztech/GPTCache/blob/main/gptcache/adapter/adapter.py)
+1. Make sure the input params, you can learn more about in the [adapter](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/adapter/adapter.py)
 2. Make sure the newly added third-party libraries are lazy imported and automatic installation
 3. Implement the post method
-4. Add a usage example to [example](https://github.com/zilliztech/GPTCache/blob/main/examples) directory and add the corresponding content to [example.md](https://github.com/zilliztech/GPTCache/blob/main/examples/README.md) [README.md](https://github.com/zilliztech/GPTCache/blob/main/README.md)
+4. Add a usage example to [example](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples) directory and add the corresponding content to [example.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/examples/README.md) [README.md](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/README.md)
 
 ```python
 # Get the most similar one from multiple results
@@ -160,6 +160,6 @@ def random_one(messages):
 
 # Add a new process in handling chatgpt requests
 
-1. Need to have a clear understanding of the current process, refer to the [adapter](https://github.com/zilliztech/GPTCache/blob/main/gptcache/adapter/adapter.py)
+1. Need to have a clear understanding of the current process, refer to the [adapter](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/maqcache/adapter/adapter.py)
 2. Add a new process
 3. Make sure all examples work properly

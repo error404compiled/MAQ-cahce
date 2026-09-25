@@ -2,18 +2,18 @@ import streamlit as st
 import os
 import uuid
 
-from gptcache import cache
-from gptcache.manager import get_data_manager, CacheBase, VectorBase, ObjectBase
-from gptcache.adapter import openai
-from gptcache.processor.pre import get_file_name
-from gptcache.embedding import Data2VecAudio
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache
+from maqcache.manager import get_data_manager, CacheBase, VectorBase, ObjectBase
+from maqcache.adapter import openai
+from maqcache.processor.pre import get_file_name
+from maqcache.embedding import Data2VecAudio
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
 
 @st.cache_resource
 def initialize_configuration():
     data2vec = Data2VecAudio()
-    data_manager = get_data_manager(CacheBase('sqlite', sql_url='sqlite:///./local/gptcache20.db'),
+    data_manager = get_data_manager(CacheBase('sqlite', sql_url='sqlite:///./local/maqcache20.db'),
                                     VectorBase('faiss', dimension=data2vec.dimension, index_path='./local/faiss20.index'),
                                     ObjectBase('local', path='./local'))
     cache.init(
@@ -32,12 +32,12 @@ def api_call(audio_bytes, open_ai_key):
     os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
     cache.set_openai_key()
     transcript = openai.Audio.transcribe('whisper-1', audio_bytes, api_key=open_ai_key)
-    is_cached = transcript.get('gptcache', False)
+    is_cached = transcript.get('maqcache', False)
     return transcript['text'], is_cached
 
 def main():
 
-    st.title('GPTCache for Audio Demo')
+    st.title('MAQCache for Audio Demo')
     open_ai_key = st.text_input('OpenAI key')
     audio_file = st.file_uploader('Choose an audio file (.mp3, .wav, or .ogg)', type=['mp3', 'wav', 'ogg'])
 

@@ -1,9 +1,9 @@
 # Release Note
 
-To read the following content, you need to understand the basic use of GPTCache, references:
+To read the following content, you need to understand the basic use of MAQCache, references:
 
-- [Readme doc](https://github.com/zilliztech/GPTCache)
-- [Usage doc](https://github.com/zilliztech/GPTCache/blob/main/docs/usage.md)
+- [Readme doc](https://github.com/error404compiled/MAQ-cahce)
+- [Usage doc](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/docs/usage.md)
 
 ## v0.1.40 (2023.8.23)
 1. Support the redis eviction
@@ -26,7 +26,7 @@ Some improvements:
 
 ## v0.1.35 (2023.7.7)
 
-1. Support the redis as the cache store, usage example: [redis+onnx](https://github.com/zilliztech/GPTCache/blob/main/tests/integration_tests/test_redis_onnx.py)
+1. Support the redis as the cache store, usage example: [redis+onnx](https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/tests/integration_tests/test_redis_onnx.py)
 2. Add report table for easy analysis of cache data
 
 ## v0.1.34 (2023.6.30)
@@ -47,7 +47,7 @@ Some improvements:
 1. Support the redis as vector store
 
 ```python
-from gptcache.manager import VectorBase
+from maqcache.manager import VectorBase
 
 vector_base = VectorBase("redis", dimension=10)
 ```
@@ -61,7 +61,7 @@ vector_base = VectorBase("redis", dimension=10)
 a. SBERT CrossEncoder Evaluation
 
 ```python
-from gptcache.similarity_evaluation import SbertCrossencoderEvaluation
+from maqcache.similarity_evaluation import SbertCrossencoderEvaluation
 evaluation = SbertCrossencoderEvaluation()
 score = evaluation.evaluation(
     {
@@ -76,7 +76,7 @@ score = evaluation.evaluation(
 b. Cohere rerank api (**Free accounts can make up to 100 calls per minute.**)
 
 ```python
-from gptcache.similarity_evaluation import CohereRerankEvaluation
+from maqcache.similarity_evaluation import CohereRerankEvaluation
 
 evaluation = CohereRerankEvaluation()
 score = evaluation.evaluation(
@@ -92,7 +92,7 @@ score = evaluation.evaluation(
 c. Multi-round dialog similarity weight matching
 
 ```python
-from gptcache.similarity_evaluation import SequenceMatchEvaluation
+from maqcache.similarity_evaluation import SequenceMatchEvaluation
 
 weights = [0.5, 0.3, 0.2]
 evaluation = SequenceMatchEvaluation(weights, 'onnx')
@@ -111,7 +111,7 @@ score = evaluation.evaluation(query, cache)
 d. Time Evaluation. For the cached answer, first check the time dimension, such as only using the generated cache for the past day
 
 ```python
-from gptcache.similarity_evaluation import TimeEvaluation
+from maqcache.similarity_evaluation import TimeEvaluation
 
 evaluation = TimeEvaluation(evaluation="distance", time_range=86400)
 
@@ -134,7 +134,7 @@ b. LangChainChat does work with _agenerate function #400
 1. Support to use the cohere rerank api to evaluate the similarity
 
 ```python
-from gptcache.similarity_evaluation import CohereRerankEvaluation
+from maqcache.similarity_evaluation import CohereRerankEvaluation
 
 evaluation = CohereRerankEvaluation()
 score = evaluation.evaluation(
@@ -147,19 +147,19 @@ score = evaluation.evaluation(
 )
 ```
 
-2. Improve the gptcache server api, refer to the "/docs" path after starting the server
+2. Improve the maqcache server api, refer to the "/docs" path after starting the server
 3. Fix the bug about the langchain track token usage
 
 ## v0.1.29 (2023.6.2)
 
-1. Improve the GPTCache server by using FASTAPI
+1. Improve the MAQCache server by using FASTAPI
 
-**NOTE**: The api struct has been optimized, details: [Use GPTCache server](https://github.com/zilliztech/GPTCache/blob/dev/docs/usage.md#use-gptcache-server)
+**NOTE**: The api struct has been optimized, details: [Use MAQCache server](https://github.com/zilliztech/GPTCache/blob/dev/docs/usage.md#use-gptcache-server)
 
 2. Add the usearch vector store
 
 ```python
-from gptcache.manager import manager_factory
+from maqcache.manager import manager_factory
 
 data_manager = manager_factory("sqlite,usearch", vector_params={"dimension": 10})
 ```
@@ -170,7 +170,7 @@ To handle a large prompt, there are currently two options available:
 1. Increase the column size of CacheStorage.
 
 ```python
-from gptcache.manager import manager_factory
+from maqcache.manager import manager_factory
 
 data_manager = manager_factory(
     "sqlite,faiss", scalar_params={"table_len_config": {"question_question": 5000}}
@@ -188,8 +188,8 @@ More Details:
 
 - **str template**
 ```python
-from gptcache import Config
-from gptcache.processor.pre import last_content_without_template
+from maqcache import Config
+from maqcache.processor.pre import last_content_without_template
 
 template_obj = "tell me a joke about {subject}"
 prompt = template_obj.format(subject="animal")
@@ -205,8 +205,8 @@ print(value)
 ```python
 from langchain import PromptTemplate
 
-from gptcache import Config
-from gptcache.processor.pre import last_content_without_template
+from maqcache import Config
+from maqcache.processor.pre import last_content_without_template
 
 template_obj = PromptTemplate.from_template("tell me a joke about {subject}")
 prompt = template_obj.format(subject="animal")
@@ -224,10 +224,10 @@ print(value)
 ```python
 import random
 
-from gptcache import Cache
-from gptcache.adapter import openai
-from gptcache.adapter.api import init_similar_cache
-from gptcache.processor.pre import last_content
+from maqcache import Cache
+from maqcache.adapter import openai
+from maqcache.adapter.api import init_similar_cache
+from maqcache.processor.pre import last_content
 
 cache_obj = Cache()
 init_similar_cache(
@@ -259,7 +259,7 @@ openai.ChatCompletion.create(
 1. Support the uform embedding, which can be used the **bilingual** (english + chinese) language
 
 ```python
-from gptcache.embedding import UForm
+from maqcache.embedding import UForm
 
 test_sentence = 'Hello, world.'
 encoder = UForm(model='unum-cloud/uform-vl-english')
@@ -275,7 +275,7 @@ embed = encoder.to_embeddings(test_sentence)
 1. Support the paddlenlp embedding
 
 ```python
-from gptcache.embedding import PaddleNLP
+from maqcache.embedding import PaddleNLP
 
 test_sentence = 'Hello, world.'
 encoder = PaddleNLP(model='ernie-3.0-medium-zh')
@@ -285,9 +285,9 @@ embed = encoder.to_embeddings(test_sentence)
 2. Support [the openai Moderation api](https://platform.openai.com/docs/api-reference/moderations)
 
 ```python
-from gptcache.adapter import openai
-from gptcache.adapter.api import init_similar_cache
-from gptcache.processor.pre import get_openai_moderation_input
+from maqcache.adapter import openai
+from maqcache.adapter.api import init_similar_cache
+from maqcache.processor.pre import get_openai_moderation_input
 
 init_similar_cache(pre_func=get_openai_moderation_input)
 openai.Moderation.create(
@@ -295,7 +295,7 @@ openai.Moderation.create(
 )
 ```
 
-3. Add the llama_index bootcamp, through which you can learn how GPTCache works with llama index
+3. Add the llama_index bootcamp, through which you can learn how MAQCache works with llama index
 
 details: [WebPage QA](https://gptcache.readthedocs.io/en/latest/bootcamp/llama_index/webpage_qa.html)
 
@@ -304,7 +304,7 @@ details: [WebPage QA](https://gptcache.readthedocs.io/en/latest/bootcamp/llama_i
 1. Support the DocArray vector database
 
 ```python
-from gptcache.manager import manager_factory
+from maqcache.manager import manager_factory
 
 data_manager = manager_factory("sqlite,docarray")
 ```
@@ -312,7 +312,7 @@ data_manager = manager_factory("sqlite,docarray")
 2. Add rwkv model for embedding
 
 ```python
-from gptcache.embedding import Rwkv
+from maqcache.embedding import Rwkv
 
 test_sentence = 'Hello, world.'
 encoder = Rwkv(model='sgugger/rwkv-430M-pile')
@@ -324,7 +324,7 @@ embed = encoder.to_embeddings(test_sentence)
 1. Support the langchain embedding
 
 ```python
-from gptcache.embedding import LangChain
+from maqcache.embedding import LangChain
 from langchain.embeddings.openai import OpenAIEmbeddings
 
 test_sentence = 'Hello, world.'
@@ -333,10 +333,10 @@ encoder = LangChain(embeddings=embeddings)
 embed = encoder.to_embeddings(test_sentence)
 ```
 
-2. Add gptcache client
+2. Add maqcache client
 
 ```python
-from gptcache import Client
+from maqcache import Client
 
 client = Client()
 client.put("Hi", "Hi back")
@@ -346,14 +346,14 @@ ans = client.get("Hi")
 3. Support pgvector as vector store
 
 ```python
-from gptcache.manager import manager_factory
+from maqcache.manager import manager_factory
 
 data_manager = manager_factory("sqlite,pgvector", vector_params={"dimension": 10})
 ```
 
-4. Add the GPTCache server doc
+4. Add the MAQCache server doc
 
-reference: https://github.com/zilliztech/GPTCache/blob/main/docs/usage.md#Build-GPTCache-server
+reference: https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/docs/usage.md#Build-MAQCache-server
 
 ## v0.1.23 (2023.5.11)
 
@@ -361,8 +361,8 @@ reference: https://github.com/zilliztech/GPTCache/blob/main/docs/usage.md#Build-
 
 ```python
 from langchain import OpenAI
-from gptcache.adapter.langchain_models import LangChainLLMs
-from gptcache.session import Session
+from maqcache.adapter.langchain_models import LangChainLLMs
+from maqcache.session import Session
 
 session = Session(name="sqlite-example")
 llm = LangChainLLMs(llm=OpenAI(temperature=0), session=session)
@@ -371,8 +371,8 @@ llm = LangChainLLMs(llm=OpenAI(temperature=0), session=session)
 2. Optimize the summarization context process
 
 ```python
-from gptcache import cache
-from gptcache.processor.context.summarization_context import SummarizationContextProcess
+from maqcache import cache
+from maqcache.processor.context.summarization_context import SummarizationContextProcess
 
 context_process = SummarizationContextProcess()
 cache.init(
@@ -382,7 +382,7 @@ cache.init(
 
 3. Add BabyAGI bootcamp
 
-details: https://github.com/zilliztech/GPTCache/blob/main/docs/bootcamp/langchain/baby_agi.ipynb
+details: https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/docs/bootcamp/langchain/baby_agi.ipynb
 
 ## v0.1.22 (2023.5.7)
 
@@ -390,9 +390,9 @@ details: https://github.com/zilliztech/GPTCache/blob/main/docs/bootcamp/langchai
 
 ```python
 import transformers
-from gptcache.processor.context.summarization_context import SummarizationContextProcess
-from gptcache.processor.context.selective_context import SelectiveContextProcess
-from gptcache import cache
+from maqcache.processor.context.summarization_context import SummarizationContextProcess
+from maqcache.processor.context.selective_context import SelectiveContextProcess
+from maqcache import cache
 
 summarizer = transformers.pipeline("summarization", model="facebook/bart-large-cnn")
 context_process = SummarizationContextProcess(summarizer, None, 512)
@@ -411,7 +411,7 @@ cache.init(
 1. Support the temperature param
 
 ```python
-from gptcache.adapter import openai
+from maqcache.adapter import openai
 
 openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
@@ -426,8 +426,8 @@ openai.ChatCompletion.create(
 2. Add the session layer
 
 ```python
-from gptcache.adapter import openai
-from gptcache.session import Session
+from maqcache.adapter import openai
+from maqcache.session import Session
 
 session = Session(name="my-session")
 question = "what do you think about chatgpt"
@@ -440,22 +440,22 @@ openai.ChatCompletion.create(
 )
 ```
 
-details: https://github.com/zilliztech/GPTCache/tree/main/examples#How-to-run-with-session
+details: https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/examples#How-to-run-with-session
 
 3. Support config cache with yaml for server
 
 ```python
-from gptcache.adapter.api import init_similar_cache_from_config
+from maqcache.adapter.api import init_similar_cache_from_config
 
 init_similar_cache_from_config(config_dir="cache_config_template.yml")
 ```
 
-config file template: https://github.com/zilliztech/GPTCache/blob/main/cache_config_template.yml
+config file template: https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/cache_config_template.yml
 
 4. Adapt the dolly model
 
 ```python
-from gptcache.adapter.dolly import Dolly
+from maqcache.adapter.dolly import Dolly
 
 llm = Dolly.from_model(model="databricks/dolly-v2-3b")
 llm(question)
@@ -472,7 +472,7 @@ A lower temperature means a more deterministic and confident output.
 2. Add llama adapter
 
 ```python
-from gptcache.adapter.llama_cpp import Llama
+from maqcache.adapter.llama_cpp import Llama
 
 llm = Llama('./models/7B/ggml-model.bin')
 answer = llm(prompt=question)
@@ -486,14 +486,14 @@ answer = llm(prompt=question)
 import os
 import time
 
-from gptcache import cache
-from gptcache.processor.pre import get_prompt
-from gptcache.adapter.stability_sdk import StabilityInference, generation
-from gptcache.embedding import Onnx
-from gptcache.manager.factory import manager_factory
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache
+from maqcache.processor.pre import get_prompt
+from maqcache.adapter.stability_sdk import StabilityInference, generation
+from maqcache.embedding import Onnx
+from maqcache.manager.factory import manager_factory
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
-# init gptcache
+# init maqcache
 onnx = Onnx()
 data_manager = manager_factory('sqlite,faiss,local', 
                                data_dir='./', 
@@ -533,34 +533,34 @@ Notice: It cannot be used directly, it needs to cooperate with mini-GPT4 source 
 
 1. Add vqa bootcamp
 
-reference: https://github.com/zilliztech/GPTCache/tree/main/docs/bootcamp/replicate
+reference: https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/docs/bootcamp/replicate
 
 2. Add two streamlit multimodal demos
 
-reference: https://github.com/zilliztech/GPTCache/tree/main/docs/bootcamp/streamlit
+reference: https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/docs/bootcamp/streamlit
 
 3. Add vit image embedding func
 
 ```python
-from gptcache.embedding import ViT
+from maqcache.embedding import ViT
 
 encoder = ViT(model="google/vit-base-patch16-384")
 embed = encoder.to_embeddings(image)
 ```
 
-4. Add `init_similar_cache` func for the GPTCache api module
+4. Add `init_similar_cache` func for the MAQCache api module
 
 ```python
-from gptcache.adapter.api import init_similar_cache
+from maqcache.adapter.api import init_similar_cache
 
 init_similar_cache("cache_data")
 ```
 
-5. The simple GPTCache server provides similar cache
+5. The simple MAQCache server provides similar cache
 
-- clone the GPTCache repo, `git clone https://github.com/zilliztech/GPTCache.git`
-- install the gptcache model, `pip install gptcache`
-- run the GPTCache server, `cd gptcache_server && python server.py`
+- clone the MAQCache repo, `git clone https://github.com/zilliztech/GPTCache.git`
+- install the maqcache model, `pip install maqcache`
+- run the MAQCache server, `cd maqcache_server && python server.py`
 
 ## v0.1.17 (2023.4.20)
 
@@ -569,9 +569,9 @@ init_similar_cache("cache_data")
 ```python
 import requests
 from PIL import Image
-from gptcache.embedding import Timm
+from maqcache.embedding import Timm
 
-url = 'https://raw.githubusercontent.com/zilliztech/GPTCache/main/docs/GPTCache.png'
+url = 'https://raw.githubusercontent.com/error404compiled/MAQ-cahce/making-it-mine/docs/MAQCache.png'
 image = Image.open(requests.get(url, stream=True).raw)  # Read image url as PIL.Image      
 encoder = Timm(model='resnet18')
 image_tensor = encoder.preprocess(image)
@@ -581,7 +581,7 @@ embed = encoder.to_embeddings(image_tensor)
 2. Add Replicate adapter, vqa (visual question answering) (**experimental**)
 
 ```python
-from gptcache.adapter import replicate
+from maqcache.adapter import replicate
 
 question = "what is in the image?"
 
@@ -597,7 +597,7 @@ replicate.run(
 3. Support to flush data for preventing accidental loss of memory data
 
 ```python
-from gptcache import cache
+from maqcache import cache
 
 cache.flush()
 ```
@@ -609,9 +609,9 @@ cache.flush()
 ```python
 import torch
 
-from gptcache.adapter.diffusers import StableDiffusionPipeline
-from gptcache.processor.pre import get_prompt
-from gptcache import cache
+from maqcache.adapter.diffusers import StableDiffusionPipeline
+from maqcache.processor.pre import get_prompt
+from maqcache import cache
 
 cache.init(
     pre_embedding_func=get_prompt,
@@ -623,17 +623,17 @@ prompt = "a photo of an astronaut riding a horse on mars"
 pipe(prompt=prompt).images[0]
 ```
 
-2. Add speech to text bootcamp, [link](https://github.com/zilliztech/GPTCache/tree/main/docs/bootcamp/openai/speech_to_text.ipynb)
+2. Add speech to text bootcamp, [link](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/docs/bootcamp/openai/speech_to_text.ipynb)
 
 3. More convenient management of cache files
 
 ```python
-from gptcache.manager.factory import manager_factory
+from maqcache.manager.factory import manager_factory
 
 data_manager = manager_factory('sqlite,faiss', data_dir="test_cache", vector_params={"dimension": 5})
 ```
 
-4. Add a simple GPTCache server (**experimental**)
+4. Add a simple MAQCache server (**experimental**)
 
 After starting this server, you can:
 
@@ -644,19 +644,19 @@ Currently the service is just a map cache, more functions are still under develo
 
 ## v0.1.15 (2023.4.17)
 
-1. Add GPTCache api, makes it easier to access other different llm models and applications
+1. Add MAQCache api, makes it easier to access other different llm models and applications
 
 ```python
-from gptcache.adapter.api import put, get
-from gptcache.processor.pre import get_prompt
-from gptcache import cache
+from maqcache.adapter.api import put, get
+from maqcache.processor.pre import get_prompt
+from maqcache import cache
 
 cache.init(pre_embedding_func=get_prompt)
 put("hello", "foo")
 print(get("hello"))
 ```
 
-2. Add image generation bootcamp, link: https://github.com/zilliztech/GPTCache/blob/main/docs/bootcamp/openai/image_generation.ipynb
+2. Add image generation bootcamp, link: https://github.com/error404compiled/MAQ-cahce/blob/making-it-mine/docs/bootcamp/openai/image_generation.ipynb
 
 ## v0.1.14 (2023.4.17)
 
@@ -706,12 +706,12 @@ response = openai.Completion.create(
             )
 ```
 
-2. Add langchain and openai [bootcamp](https://github.com/zilliztech/GPTCache/tree/main/docs/bootcamp)
+2. Add langchain and openai [bootcamp](https://github.com/error404compiled/MAQ-cahce/tree/making-it-mine/docs/bootcamp)
 
 3. Add openai image adapter (**experimental**)
 
 ```python
-from gptcache.adapter import openai
+from maqcache.adapter import openai
 
 cache.init()
 cache.set_openai_key()
@@ -748,7 +748,7 @@ cache.init(
 2. Add LangChainChat adapter
 
 ```python
-from gptcache.adapter.langchain_models import LangChainChat
+from maqcache.adapter.langchain_models import LangChainChat
 
 cache.init(
     pre_embedding_func=get_msg,

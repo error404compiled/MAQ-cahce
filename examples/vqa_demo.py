@@ -1,6 +1,6 @@
 # ================================================================================
 # This demo comes from [minigpt4](https://github.com/Vision-CAIR/MiniGPT-4)
-# and is integrated with [gptcahe](https://github.com/zilliztech/GPTCache)
+# and is integrated with [maqcache](https://github.com/error404compiled/MAQ-cahce)
 # for image Question Answering.
 # Please make sure you have successfully setup minigpt4.
 # Run `python vqa_demo.py --cfg-path eval_configs/minigpt4_eval.yaml  --gpu-id 0`.
@@ -70,7 +70,7 @@ print(" Chat Initialization Finished")
 
 title = """<h1 align="center">Demo of MiniGPT-4 and MAQCache</h1>"""
 description = """<h3>This is the demo of MiniGPT-4 and MAQCache. Upload your images and ask question, and it will be cached.</h3>"""
-article = """<p><a href="https://github.com/zilliztech/GPTCache"><img src="https://img.shields.io/badge/Github-Code-blue"></a></p>"""
+article = """<p><a href="https://github.com/error404compiled/MAQ-cahce"><img src="https://img.shields.io/badge/Github-Code-blue"></a></p>"""
 
 # show examples below
 
