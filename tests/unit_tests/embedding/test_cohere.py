@@ -1,9 +1,9 @@
 import os
 import types
 from unittest.mock import patch
-from gptcache.utils import import_cohere
-from gptcache.embedding import Cohere
-from gptcache.adapter.api import _get_model
+from maqcache.utils import import_cohere
+from maqcache.embedding import Cohere
+from maqcache.adapter.api import _get_model
 
 import_cohere()
 

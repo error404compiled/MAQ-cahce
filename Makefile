@@ -24,7 +24,7 @@ remove_conda_env:
 	@bash ./scripts/manage_conda_env.sh remove
 
 pylint_check:
-	pylint --rcfile=pylint.conf --output-format=colorized gptcache
+	pylint --rcfile=pylint.conf --output-format=colorized maqcache
 
 pytest:
 	pytest tests/

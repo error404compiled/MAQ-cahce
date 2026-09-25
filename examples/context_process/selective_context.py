@@ -1,13 +1,13 @@
 import os
 import time
 
-from gptcache import cache
-from gptcache.adapter import openai
-from gptcache.embedding import Onnx
-from gptcache.manager import manager_factory
-from gptcache.processor.context import SelectiveContextProcess
-from gptcache.similarity_evaluation import SearchDistanceEvaluation
-from gptcache.utils import import_selective_context
+from maqcache import cache
+from maqcache.adapter import openai
+from maqcache.embedding import Onnx
+from maqcache.manager import manager_factory
+from maqcache.processor.context import SelectiveContextProcess
+from maqcache.similarity_evaluation import SearchDistanceEvaluation
+from maqcache.utils import import_selective_context
 
 import_selective_context()
 

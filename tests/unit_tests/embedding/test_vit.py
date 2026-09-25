@@ -2,8 +2,8 @@ from io import BytesIO
 
 import requests
 
-from gptcache.adapter.api import _get_model
-from gptcache.utils import import_pillow, import_vit
+from maqcache.adapter.api import _get_model
+from maqcache.utils import import_pillow, import_vit
 
 
 def test_timm():
@@ -11,7 +11,7 @@ def test_timm():
     import_pillow()
 
     from PIL import Image
-    from gptcache.embedding import ViT
+    from maqcache.embedding import ViT
 
     url = 'https://raw.githubusercontent.com/zilliztech/GPTCache/main/docs/GPTCache.png'
     image_bytes = requests.get(url).content

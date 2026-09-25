@@ -6,9 +6,9 @@ from random import randint
 from uuid import uuid4
 from datetime import datetime
 from decimal import Decimal
-from gptcache.manager.scalar_data.base import CacheStorage, CacheData, DataType, Question, QuestionDep
-from gptcache.utils import import_boto3
-from gptcache.manager.scalar_data.dynamo_storage import DynamoStorage 
+from maqcache.manager.scalar_data.base import CacheStorage, CacheData, DataType, Question, QuestionDep
+from maqcache.utils import import_boto3
+from maqcache.manager.scalar_data.dynamo_storage import DynamoStorage 
 
 import_boto3()
 
@@ -51,10 +51,10 @@ class TestDynamoCacheStorage(unittest.TestCase):
             pytest.fail("create() method should be idempotent. It failed with exception: " + str(e))
 
         # now manually query via boto3 to make sure the table is there
-        table = self._dynamo_resource().Table("gptcache_questions")
+        table = self._dynamo_resource().Table("maqcache_questions")
         assert table is not None
 
-        table = self._dynamo_resource().Table("gptcache_reports")
+        table = self._dynamo_resource().Table("maqcache_reports")
         assert table is not None
 
     def test_creation_and_batch_insert(self):
@@ -67,7 +67,7 @@ class TestDynamoCacheStorage(unittest.TestCase):
         self.dynamo_cache_storage.batch_insert(cache_entries_to_insert)
 
         # now manually query via boto3 to make sure the data is there
-        table = self._dynamo_resource().Table("gptcache_questions")
+        table = self._dynamo_resource().Table("maqcache_questions")
         items = table.scan()['Items']
 
         # Since there are session_ids for each item except one, there should be a corresponding session entries in this
@@ -131,7 +131,7 @@ class TestDynamoCacheStorage(unittest.TestCase):
         self.dynamo_cache_storage.mark_deleted([persisted_id])
 
         # it should have been soft deleted. Boto3 API shouldn't even return an "Item" obj in the response if its deleted
-        table = self._dynamo_resource().Table("gptcache_questions")
+        table = self._dynamo_resource().Table("maqcache_questions")
         resp = table.get_item(
             Key={"pk": f"questions#{persisted_id}", "id": f"questions#{persisted_id}"},
         )
@@ -154,7 +154,7 @@ class TestDynamoCacheStorage(unittest.TestCase):
         self.dynamo_cache_storage.clear_deleted_data()
 
         # now query the table and make sure the first 2 items are gone, but the last one is still there
-        table = self._dynamo_resource().Table("gptcache_questions")
+        table = self._dynamo_resource().Table("maqcache_questions")
         resp = table.scan(FilterExpression = DynamoAttr("id").begins_with("questions#"))
 
         assert len(resp["Items"]) == 1
@@ -219,7 +219,7 @@ class TestDynamoCacheStorage(unittest.TestCase):
         self.dynamo_cache_storage.add_session(persisted_id, session_id2, item_to_insert.question.content)
 
         # now query the table and make sure the sessions are there
-        table = self._dynamo_resource().Table("gptcache_questions")
+        table = self._dynamo_resource().Table("maqcache_questions")
         session1_questions = table.query(
             IndexName = "gsi_items_by_type",
             KeyConditionExpression = DynamoKey("id").eq(f"sessions#{session_id1}")
@@ -323,7 +323,7 @@ class TestDynamoCacheStorage(unittest.TestCase):
         assert entry is None
 
         # now soft delete the existing row in dynamo and make sure it's not returned
-        table = self._dynamo_resource().Table("gptcache_questions")
+        table = self._dynamo_resource().Table("maqcache_questions")
         table.update_item(
             Key = {
                 "pk": f"questions#{persisted_id}",
@@ -358,7 +358,7 @@ class TestDynamoCacheStorage(unittest.TestCase):
         )
 
         # now manually query via boto3 to make sure the data is there
-        table = self._dynamo_resource().Table("gptcache_reports")
+        table = self._dynamo_resource().Table("maqcache_reports")
         items = table.scan()['Items']
 
         # Since there are session_ids for each item except one, there should be a corresponding session entries in this

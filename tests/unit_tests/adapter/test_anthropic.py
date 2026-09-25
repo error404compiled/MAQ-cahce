@@ -5,8 +5,8 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from gptcache import cache
-from gptcache.utils.response import get_message_from_anthropic_answer
+from maqcache import cache
+from maqcache.utils.response import get_message_from_anthropic_answer
 
 
 class _FakeAPIError(Exception):
@@ -23,8 +23,8 @@ def _install_fake_anthropic():
 
 _install_fake_anthropic()
 
-with patch("gptcache.utils._check_library", return_value=True):
-    from gptcache.adapter import anthropic as cache_anthropic
+with patch("maqcache.utils._check_library", return_value=True):
+    from maqcache.adapter import anthropic as cache_anthropic
 
 
 def _make_message(text):

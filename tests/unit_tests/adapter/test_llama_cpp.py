@@ -4,10 +4,10 @@ import unittest
 from unittest.mock import patch, MagicMock
 from tempfile import TemporaryDirectory
 
-from gptcache import Cache
-from gptcache.processor.pre import get_prompt
-from gptcache.manager.factory import manager_factory
-from gptcache.embedding import Onnx
+from maqcache import Cache
+from maqcache.processor.pre import get_prompt
+from maqcache.manager.factory import manager_factory
+from maqcache.embedding import Onnx
 
 question = "test_llama_cpp"
 expect_answer = "hello world"
@@ -58,14 +58,14 @@ class TestLlama(unittest.TestCase):
                 embedding_func=onnx.to_embeddings
             )
 
-            with patch('gptcache.utils.import_llama_cpp_python'):
-                from gptcache.adapter.llama_cpp import Llama
+            with patch('maqcache.utils.import_llama_cpp_python'):
+                from maqcache.adapter.llama_cpp import Llama
                 llm = Llama('model.bin')
                 answer = llm(prompt=question, cache_obj=llm_cache)
                 assert expect_answer == answer['choices'][0]['text']
 
                 answer2 = llm(prompt=question, cache_obj=llm_cache)
-                assert answer2['gptcache'] is True
+                assert answer2['maqcache'] is True
                 assert expect_answer == answer2['choices'][0]['text']                
 
                 llm(prompt=question, cache_obj=llm_cache, stream=True, stop=['\n'])
@@ -84,15 +84,15 @@ class TestLlama(unittest.TestCase):
                 embedding_func=onnx.to_embeddings
             )
 
-            with patch('gptcache.utils.import_llama_cpp_python'):
-                from gptcache.adapter.llama_cpp import Llama
+            with patch('maqcache.utils.import_llama_cpp_python'):
+                from maqcache.adapter.llama_cpp import Llama
                 llm = Llama('model.bin')
                 answer = llm(prompt=question, cache_obj=llm_cache, stream=True)
                 for item in answer:
                     assert expect_answer == item['choices'][0]['text']
 
                 answer2 = llm(prompt=question, cache_obj=llm_cache)
-                assert answer2['gptcache'] is True
+                assert answer2['maqcache'] is True
                 assert expect_answer == answer2['choices'][0]['text']                
 
                 answer = llm(prompt=question, cache_obj=llm_cache, stream=True)

@@ -18,7 +18,7 @@ jobs:
     - name: Docker Build
       shell: bash
       run: |
-        docker build "./gptcache_server/dockerfiles" -t "zilliz/gptcache:${{ steps.get_version.outputs.VERSION }}"
+        docker build "./maqcache_server/dockerfiles" -t "zilliz/maqcache:${{ steps.get_version.outputs.VERSION }}"
 
     - name: Docker login 
       if: success()
@@ -32,6 +32,6 @@ jobs:
       continue-on-error: false
       shell: bash
       run: |
-        docker push zilliz/gptcache:${{ steps.get_version.outputs.VERSION }}
-        docker tag zilliz/gptcache:${{ steps.get_version.outputs.VERSION }} zilliz/gptcache:latest
-        docker push zilliz/gptcache:latest
+        docker push zilliz/maqcache:${{ steps.get_version.outputs.VERSION }}
+        docker tag zilliz/maqcache:${{ steps.get_version.outputs.VERSION }} zilliz/maqcache:latest
+        docker push zilliz/maqcache:latest

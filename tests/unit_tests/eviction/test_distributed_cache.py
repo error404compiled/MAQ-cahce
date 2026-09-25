@@ -5,9 +5,9 @@ from tempfile import TemporaryDirectory
 
 from redis_om import get_redis_connection
 
-from gptcache.embedding import Onnx
-from gptcache.manager import manager_factory, get_data_manager, CacheBase, VectorBase
-from gptcache.manager.eviction import EvictionBase
+from maqcache.embedding import Onnx
+from maqcache.manager import manager_factory, get_data_manager, CacheBase, VectorBase
+from maqcache.manager.eviction import EvictionBase
 
 
 class TestDistributedCache(unittest.TestCase):

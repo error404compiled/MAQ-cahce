@@ -5,13 +5,13 @@ from unittest.mock import patch
 
 import numpy as np
 
-from gptcache import cache
-from gptcache.adapter import stability_sdk as cache_stability
-from gptcache.adapter.stability_sdk import generation, _construct_resp_from_cache
-from gptcache.manager.factory import manager_factory
-from gptcache.processor.pre import get_prompt
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
-from gptcache.utils import (
+from maqcache import cache
+from maqcache.adapter import stability_sdk as cache_stability
+from maqcache.adapter.stability_sdk import generation, _construct_resp_from_cache
+from maqcache.manager.factory import manager_factory
+from maqcache.processor.pre import get_prompt
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.utils import (
     import_stability, import_pillow
 )
 

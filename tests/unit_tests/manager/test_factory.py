@@ -5,9 +5,9 @@ import numpy as np
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from gptcache.manager.factory import get_data_manager, manager_factory
-from gptcache.manager import VectorBase, CacheBase, ObjectBase
-from gptcache.manager.scalar_data.base import Answer, DataType
+from maqcache.manager.factory import get_data_manager, manager_factory
+from maqcache.manager import VectorBase, CacheBase, ObjectBase
+from maqcache.manager.scalar_data.base import Answer, DataType
 
 
 class TestFactory(unittest.TestCase):
@@ -30,7 +30,7 @@ class TestFactory(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             manager_factory("sqlite")
 
-        with mock.patch('gptcache.manager.vector_data.milvus.Milvus.__init__') as mock_init:
+        with mock.patch('maqcache.manager.vector_data.milvus.Milvus.__init__') as mock_init:
             mock_init.return_value = None
             self.assertIsNotNone(manager_factory("sqlite,milvus", vector_params={"dimension": 5, "port": "9999"}))
 

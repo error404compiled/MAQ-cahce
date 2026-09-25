@@ -1,5 +1,5 @@
-from gptcache.embedding import Huggingface
-from gptcache.adapter.api import _get_model
+from maqcache.embedding import Huggingface
+from maqcache.adapter.api import _get_model
 
 
 def test_huggingface():

@@ -1,6 +1,6 @@
-from gptcache.adapter import openai
-from gptcache import cache
-from gptcache.embedding.string import to_embeddings as string_embedding
+from maqcache.adapter import openai
+from maqcache import cache
+from maqcache.embedding.string import to_embeddings as string_embedding
 
 
 def run():

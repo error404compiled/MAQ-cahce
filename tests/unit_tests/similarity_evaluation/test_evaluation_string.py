@@ -1,7 +1,7 @@
 import math
 
-from gptcache.adapter.api import _get_eval
-from gptcache.similarity_evaluation import ExactMatchEvaluation
+from maqcache.adapter.api import _get_eval
+from maqcache.similarity_evaluation import ExactMatchEvaluation
 
 def _test_evaluation(evaluation):
     range_min, range_max = evaluation.range()

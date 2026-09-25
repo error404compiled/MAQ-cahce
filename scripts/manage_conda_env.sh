@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-DEFAULT_ENV_NAME="gpt-cache"
+DEFAULT_ENV_NAME="maqcache"
 
 # Usage: ./manage_conda_env.sh create [env_name]
 # Usage: ./manage_conda_env.sh remove [env_name]

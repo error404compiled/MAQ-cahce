@@ -1,4 +1,4 @@
-"""Run and score the GPTCache reuse-compatibility benchmark."""
+"""Run and score the MAQCache reuse-compatibility benchmark."""
 import argparse
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -69,7 +69,7 @@ def score(predictions, threshold, labels_path=None):
 
 def evaluate(case):
     sys.path.insert(0, str(ROOT.parents[2]))
-    from gptcache.similarity_evaluation.jev import JevEvaluation
+    from maqcache.similarity_evaluation.jev import JevEvaluation
 
     evaluator = JevEvaluation(timeout=45)
     started = time.perf_counter()

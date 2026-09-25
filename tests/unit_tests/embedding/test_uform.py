@@ -2,9 +2,9 @@ from io import BytesIO
 
 import requests
 
-from gptcache.adapter.api import _get_model
-from gptcache.utils import import_uform, import_pillow
-from gptcache.utils.error import ParamError
+from maqcache.adapter.api import _get_model
+from maqcache.utils import import_uform, import_pillow
+from maqcache.utils.error import ParamError
 
 import_uform()
 import_pillow()

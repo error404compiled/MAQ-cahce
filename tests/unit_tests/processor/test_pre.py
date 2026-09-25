@@ -1,4 +1,4 @@
-from gptcache.processor.pre import (
+from maqcache.processor.pre import (
     last_content,
     all_content,
     nop,
@@ -7,7 +7,7 @@ from gptcache.processor.pre import (
     concat_all_queries
 )
 
-from gptcache.config import Config
+from maqcache.config import Config
 
 def test_last_content():
     content = last_content({"messages": [{"content": "foo1"}, {"content": "foo2"}]})

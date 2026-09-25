@@ -1,7 +1,7 @@
-from gptcache.similarity_evaluation import KReciprocalEvaluation
-from gptcache.manager.vector_data.faiss import Faiss
-from gptcache.manager.vector_data.base import VectorData
-from gptcache.adapter.api import _get_eval
+from maqcache.similarity_evaluation import KReciprocalEvaluation
+from maqcache.manager.vector_data.faiss import Faiss
+from maqcache.manager.vector_data.base import VectorData
+from maqcache.adapter.api import _get_eval
 import numpy as np
 import math
 

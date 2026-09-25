@@ -1,8 +1,8 @@
 import unittest
 
-import gptcache
-from gptcache.manager.eviction.manager import EvictionBase
-from gptcache.utils.error import NotFoundError
+import maqcache
+from maqcache.manager.eviction.manager import EvictionBase
+from maqcache.utils.error import NotFoundError
 
 
 class TestEviction(unittest.TestCase):
@@ -61,7 +61,7 @@ class TestEviction(unittest.TestCase):
                 datas.remove(delete)
             return
 
-        eviction_base = gptcache.manager.eviction.EvictionBase(
+        eviction_base = maqcache.manager.eviction.EvictionBase(
             name="memory", policy="lru", maxsize=5, on_evict=on_evict
         )
 

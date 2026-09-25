@@ -1,9 +1,9 @@
 # from unittest.mock import patch
 
-# from gptcache.embedding import FastText
+# from maqcache.embedding import FastText
 
-# from gptcache.utils import import_fasttext
-# from gptcache.adapter.api import _get_model
+# from maqcache.utils import import_fasttext
+# from maqcache.adapter.api import _get_model
 
 # import_fasttext()
 

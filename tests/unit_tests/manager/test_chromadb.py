@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from gptcache.manager import VectorBase
-from gptcache.manager.vector_data.base import VectorData
+from maqcache.manager import VectorBase
+from maqcache.manager.vector_data.base import VectorData
 
 
 class TestChromadb(unittest.TestCase):

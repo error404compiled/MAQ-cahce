@@ -1,9 +1,9 @@
 import time
 
-from gptcache import cache, Config
-from gptcache.report import Report
-from gptcache.utils.cache_func import cache_all
-from gptcache.utils.time import time_cal
+from maqcache import cache, Config
+from maqcache.report import Report
+from maqcache.utils.cache_func import cache_all
+from maqcache.utils.time import time_cal
 
 
 def test_time_cal():

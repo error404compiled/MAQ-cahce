@@ -7,7 +7,7 @@ on:
       # file paths to consider in the event
     paths:
       - 'examples/**'
-      - 'gptcache/**'
+      - 'maqcache/**'
       - 'tests/**'
       - 'docs/**'
       - '!**.md'
@@ -19,7 +19,7 @@ on:
       # file paths to consider in the event
     paths:
       - 'examples/**'
-      - 'gptcache/**'
+      - 'maqcache/**'
       - 'tests/**'
       - 'docs/**'
       - '!**.md'

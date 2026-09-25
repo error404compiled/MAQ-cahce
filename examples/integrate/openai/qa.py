@@ -16,10 +16,10 @@ response = openai.ChatCompletion.create(
 print('Time Spent =', time.time() - before)	
 print(response['choices'])
 
-## import gptcache
+## import maqcache
 print('Cache loading.....')
-from gptcache import cache
-from gptcache.adapter import openai
+from maqcache import cache
+from maqcache.adapter import openai
 cache.init()
 cache.set_openai_key()
 
@@ -35,7 +35,7 @@ response = openai.ChatCompletion.create(
 print('Time Spent =', time.time() - before)	
 print(response)
 
-if 'gptcache' not in response:
+if 'maqcache' not in response:
   before = time.time()
   response = openai.ChatCompletion.create(
     model='gpt-3.5-turbo',

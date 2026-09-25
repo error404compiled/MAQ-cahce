@@ -10,13 +10,13 @@ import argparse
 
 import gradio as gr
 
-from gptcache import cache
-from gptcache.processor.pre import get_image, get_image_question
-from gptcache.embedding import Timm
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
-from gptcache.manager.factory import manager_factory
+from maqcache import cache
+from maqcache.processor.pre import get_image, get_image_question
+from maqcache.embedding import Timm
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.manager.factory import manager_factory
 
-from gptcache.adapter.minigpt4 import MiniGPT4
+from maqcache.adapter.minigpt4 import MiniGPT4
 
 
 def parse_args():
@@ -40,7 +40,7 @@ def parse_args():
 
 args = parse_args()
 
-print("Initializing GPTCache")
+print("Initializing MAQCache")
 if args.map:
     data_manager = manager_factory("map", args.dir)
     cache.init(
@@ -56,7 +56,7 @@ else:
         embedding_func=timm.to_embeddings,
         similarity_evaluation=SearchDistanceEvaluation()
     )
-print("GPTCache Initialization Finished")
+print("MAQCache Initialization Finished")
 
 print("Initializing Chat")
 pipeline = MiniGPT4.from_pretrained(cfg_path=args.cfg_path, gpu_id=args.gpu_id, options=args.options, return_hit=True)
@@ -68,8 +68,8 @@ print(" Chat Initialization Finished")
 # ========================================
 
 
-title = """<h1 align="center">Demo of MiniGPT-4 and GPTCache</h1>"""
-description = """<h3>This is the demo of MiniGPT-4 and GPTCache. Upload your images and ask question, and it will be cached.</h3>"""
+title = """<h1 align="center">Demo of MiniGPT-4 and MAQCache</h1>"""
+description = """<h3>This is the demo of MiniGPT-4 and MAQCache. Upload your images and ask question, and it will be cached.</h3>"""
 article = """<p><a href="https://github.com/zilliztech/GPTCache"><img src="https://img.shields.io/badge/Github-Code-blue"></a></p>"""
 
 # show examples below

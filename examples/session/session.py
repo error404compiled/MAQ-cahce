@@ -1,8 +1,8 @@
-from gptcache import cache
-from gptcache.session import Session
-from gptcache.adapter import openai
+from maqcache import cache
+from maqcache.session import Session
+from maqcache.adapter import openai
 
-# init gptcache
+# init maqcache
 cache.init()
 cache.set_openai_key()
 

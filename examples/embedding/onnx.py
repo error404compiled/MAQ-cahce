@@ -1,9 +1,9 @@
-from gptcache.adapter import openai
-from gptcache import cache
-from gptcache.manager.factory import get_data_manager
-from gptcache.manager import get_data_manager, CacheBase, VectorBase
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
-from gptcache.embedding import Onnx
+from maqcache.adapter import openai
+from maqcache import cache
+from maqcache.manager.factory import get_data_manager
+from maqcache.manager import get_data_manager, CacheBase, VectorBase
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.embedding import Onnx
 
 
 def run():

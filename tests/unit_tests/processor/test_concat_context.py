@@ -1,4 +1,4 @@
-from gptcache.adapter.api import _get_pre_context_function
+from maqcache.adapter.api import _get_pre_context_function
 
 
 def test_concat_context_process():

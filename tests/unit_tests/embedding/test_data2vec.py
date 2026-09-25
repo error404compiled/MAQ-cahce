@@ -2,8 +2,8 @@ from io import BytesIO
 
 import requests
 
-from gptcache.adapter.api import _get_model
-from gptcache.embedding import Data2VecAudio
+from maqcache.adapter.api import _get_model
+from maqcache.embedding import Data2VecAudio
 
 
 def test_data2vec_audio():

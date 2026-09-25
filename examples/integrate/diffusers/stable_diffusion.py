@@ -4,18 +4,18 @@ import torch
 from PIL import ImageChops
 from diffusers import DPMSolverMultistepScheduler
 
-from gptcache.adapter.diffusers import StableDiffusionPipeline
-from gptcache.processor.pre import get_prompt
-from gptcache import cache
+from maqcache.adapter.diffusers import StableDiffusionPipeline
+from maqcache.processor.pre import get_prompt
+from maqcache import cache
 
-from gptcache.embedding import Onnx
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
-from gptcache.manager import get_data_manager, CacheBase, VectorBase, ObjectBase
+from maqcache.embedding import Onnx
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.manager import get_data_manager, CacheBase, VectorBase, ObjectBase
 
 
 # onnx = Onnx()
 # cache_base = CacheBase('sqlite')
-# vector_base = VectorBase('milvus', host='localhost', port='19530', collection_name='gptcache_image', dimension=onnx.dimension)
+# vector_base = VectorBase('milvus', host='localhost', port='19530', collection_name='maqcache_image', dimension=onnx.dimension)
 # object_base = ObjectBase('local', path='./images')
 # data_manager = get_data_manager(cache_base, vector_base, object_base)
 

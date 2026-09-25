@@ -3,16 +3,16 @@ import os
 from pathlib import Path
 from unittest.mock import patch
 
-from gptcache import cache, Config, Cache
-from gptcache.adapter import openai
-from gptcache.adapter.api import put, get, init_similar_cache, init_similar_cache_from_config
-from gptcache.embedding import Onnx as EmbeddingOnnx
-from gptcache.manager import CacheBase, VectorBase, get_data_manager
-from gptcache.processor.post import nop
-from gptcache.processor.pre import get_prompt
-from gptcache.similarity_evaluation import SearchDistanceEvaluation
-from gptcache.utils import import_ruamel
-from gptcache.utils.response import get_message_from_openai_answer
+from maqcache import cache, Config, Cache
+from maqcache.adapter import openai
+from maqcache.adapter.api import put, get, init_similar_cache, init_similar_cache_from_config
+from maqcache.embedding import Onnx as EmbeddingOnnx
+from maqcache.manager import CacheBase, VectorBase, get_data_manager
+from maqcache.processor.post import nop
+from maqcache.processor.pre import get_prompt
+from maqcache.similarity_evaluation import SearchDistanceEvaluation
+from maqcache.utils import import_ruamel
+from maqcache.utils.response import get_message_from_openai_answer
 
 import_ruamel()
 
@@ -22,13 +22,13 @@ from ruamel.yaml import YAML
 faiss_file = "faiss.index"
 
 
-def test_gptcache_api():
+def test_maqcache_api():
     if os.path.isfile(faiss_file):
         os.remove(faiss_file)
 
     cache.init(pre_embedding_func=get_prompt)
-    put("test_gptcache_api_hello", "foo")
-    assert get("test_gptcache_api_hello") == "foo"
+    put("test_maqcache_api_hello", "foo")
+    assert get("test_maqcache_api_hello") == "foo"
 
     inner_cache = Cache()
     init_similar_cache(
@@ -127,7 +127,7 @@ def test_init_with_new_config():
         },
         "embedding": "onnx",
         "embedding_config": {
-            "model": "GPTCache/paraphrase-albert-onnx"
+            "model": "MAQCache/paraphrase-albert-onnx"
         },
         "evaluation": "distance",
         "evaluation_config": {

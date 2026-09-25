@@ -3,16 +3,16 @@ import unittest
 
 import numpy as np
 
-from gptcache.manager.scalar_data.base import CacheData, Question
-from gptcache.manager.scalar_data.redis_storage import RedisCacheStorage
-from gptcache.utils import import_redis
+from maqcache.manager.scalar_data.base import CacheData, Question
+from maqcache.manager.scalar_data.redis_storage import RedisCacheStorage
+from maqcache.utils import import_redis
 
 import_redis()
 from redis_om import get_redis_connection
 
 
 class TestRedisStorage(unittest.TestCase):
-    test_dbname = "gptcache_test"
+    test_dbname = "maqcache_test"
     url = "redis://default:default@localhost:6379"
 
     # url = "redis://default:default@localhost:7000"

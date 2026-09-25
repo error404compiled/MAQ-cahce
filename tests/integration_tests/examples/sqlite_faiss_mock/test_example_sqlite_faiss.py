@@ -1,10 +1,10 @@
 import os
 
-from gptcache.utils.response import get_message_from_openai_answer
-from gptcache.adapter import openai
-from gptcache import cache, Config
-from gptcache.manager import get_data_manager, VectorBase
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.utils.response import get_message_from_openai_answer
+from maqcache.adapter import openai
+from maqcache import cache, Config
+from maqcache.manager import get_data_manager, VectorBase
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 import numpy as np
 
 

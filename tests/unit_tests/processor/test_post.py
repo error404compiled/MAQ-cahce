@@ -1,4 +1,4 @@
-from gptcache.processor.post import random_one, first, nop, temperature_softmax
+from maqcache.processor.post import random_one, first, nop, temperature_softmax
 from unittest.mock import Mock
 
 
@@ -38,7 +38,7 @@ def test_llm_verifier():
     mock_resp.choices = [mock_choice]
     mock_client.chat.completions.create.return_value = mock_resp
 
-    from gptcache.processor.post import LlmVerifier
+    from maqcache.processor.post import LlmVerifier
     verifier = LlmVerifier(client=mock_client, system_prompt="test prompt", model="fake-model")
     messages = ["foo", "bar"]
     scores = [0.1, 0.9]

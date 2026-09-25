@@ -1,16 +1,16 @@
-from gptcache import Cache
-from gptcache.embedding import Onnx
+from maqcache import Cache
+from maqcache.embedding import Onnx
 
-from gptcache.manager.eviction import EvictionBase
+from maqcache.manager.eviction import EvictionBase
 
-from gptcache.manager import get_data_manager, CacheBase, VectorBase, manager_factory
+from maqcache.manager import get_data_manager, CacheBase, VectorBase, manager_factory
 
 
 def get_data_manager_example():
     """
     This example shows how to create a data manager with a mongo as a scalar storage, faiss vector base,
     and redis eviction base.
-    This type of configuration can be used to scale GPTCache horizontally.
+    This type of configuration can be used to scale MAQCache horizontally.
     Where keys will be maintained in redis key-value store instead of in-memory.
     The eviction of the keys will be handled based on the eviction policy of redis.
     """
@@ -36,7 +36,7 @@ def get_manager_example_redis_only():
     In this scenario, `no_op_eviction` is used as the eviction base. It will not add any keys or update their ttls.
 
     This example shows how to create a data manager with a redis as a scalar storage, as well as eviction base.
-    This type of configuration can be used to scale GPTCache horizontally.
+    This type of configuration can be used to scale MAQCache horizontally.
     Where keys will be maintained in redis key-value store instead of in-memory.
     The eviction of the keys will be handled based on the eviction policy of redis.
 

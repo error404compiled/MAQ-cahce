@@ -2,14 +2,14 @@ import unittest
 from unittest.mock import patch
 from openai.error import AuthenticationError
 
-from gptcache import cache
-from gptcache.adapter import openai
-from gptcache.manager import manager_factory
-from gptcache.session import Session
-from gptcache.processor.pre import get_prompt
-from gptcache.embedding import Onnx
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
-from gptcache.utils.response import get_text_from_openai_answer
+from maqcache import cache
+from maqcache.adapter import openai
+from maqcache.manager import manager_factory
+from maqcache.session import Session
+from maqcache.processor.pre import get_prompt
+from maqcache.embedding import Onnx
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.utils.response import get_text_from_openai_answer
 
 
 def check_hit(cur_session_id, cache_session_ids, cache_questions, cache_answer):
@@ -21,7 +21,7 @@ def check_hit(cur_session_id, cache_session_ids, cache_questions, cache_answer):
 class TestSession(unittest.TestCase):
     """Test Session"""
     question = "what is your name?"
-    expect_answer = "gptcache"
+    expect_answer = "maqcache"
     session_id = "test_map"
 
     def test_with(self):

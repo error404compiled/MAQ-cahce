@@ -1,7 +1,7 @@
-from gptcache import cache
-from gptcache.adapter import diffusers as cache_diffusers
-from gptcache.processor.pre import get_prompt
-from gptcache.utils import import_pillow, import_diffusers, import_torch, import_huggingface
+from maqcache import cache
+from maqcache.adapter import diffusers as cache_diffusers
+from maqcache.processor.pre import get_prompt
+from maqcache.utils import import_pillow, import_diffusers, import_torch, import_huggingface
 
 import_pillow()
 import_huggingface()

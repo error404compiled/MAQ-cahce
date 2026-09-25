@@ -1,5 +1,5 @@
-from gptcache import cache
-from gptcache.adapter import openai
+from maqcache import cache
+from maqcache.adapter import openai
 
 cache.init()
 cache.set_openai_key()

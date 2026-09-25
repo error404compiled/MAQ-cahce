@@ -1,11 +1,11 @@
 import time
 
-from gptcache import cache
-from gptcache.adapter import openai
-from gptcache.embedding import Onnx
-from gptcache.manager import manager_factory
-from gptcache.processor.post import temperature_softmax
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache
+from maqcache.adapter import openai
+from maqcache.embedding import Onnx
+from maqcache.manager import manager_factory
+from maqcache.processor.post import temperature_softmax
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
 cache.set_openai_key()
 

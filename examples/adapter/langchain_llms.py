@@ -5,11 +5,11 @@ from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage
 
-from gptcache.adapter.langchain_models import LangChainLLMs
-from gptcache import cache
-from gptcache.processor.pre import get_prompt
+from maqcache.adapter.langchain_models import LangChainLLMs
+from maqcache import cache
+from maqcache.processor.pre import get_prompt
 
-from gptcache.adapter.langchain_models import LangChainChat
+from maqcache.adapter.langchain_models import LangChainChat
 
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 Cohere.cohere_api_key = os.getenv("COHERE_API_KEY")

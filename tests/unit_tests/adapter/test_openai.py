@@ -8,20 +8,20 @@ from urllib.request import urlopen
 
 import pytest
 
-from gptcache import Cache, cache
-from gptcache.adapter import openai
-from gptcache.adapter.api import init_similar_cache
-from gptcache.config import Config
-from gptcache.manager import get_data_manager
-from gptcache.processor.pre import (
+from maqcache import Cache, cache
+from maqcache.adapter import openai
+from maqcache.adapter.api import init_similar_cache
+from maqcache.config import Config
+from maqcache.manager import get_data_manager
+from maqcache.processor.pre import (
     get_file_bytes,
     get_file_name,
     get_openai_moderation_input,
     get_prompt,
     last_content,
 )
-from gptcache.utils.error import CacheError
-from gptcache.utils.response import (
+from maqcache.utils.error import CacheError
+from maqcache.utils.response import (
     get_audio_text_from_openai_answer,
     get_image_from_openai_b64,
     get_image_from_openai_url,
@@ -34,7 +34,7 @@ from gptcache.utils.response import (
 try:
     from PIL import Image
 except ModuleNotFoundError:
-    from gptcache.utils.dependency_control import prompt_install
+    from maqcache.utils.dependency_control import prompt_install
 
     prompt_install("pillow")
     from PIL import Image
@@ -290,7 +290,7 @@ async def test_stream_openai_async():
 def test_completion():
     cache.init(pre_embedding_func=get_prompt)
     question = "what is your name?"
-    expect_answer = "gptcache"
+    expect_answer = "maqcache"
 
     with patch("openai.Completion.create") as mock_create:
         mock_create.return_value = {
@@ -314,7 +314,7 @@ def test_completion():
 async def test_completion_async():
     cache.init(pre_embedding_func=get_prompt)
     question = "what is your name?"
-    expect_answer = "gptcache"
+    expect_answer = "maqcache"
 
     with patch("openai.Completion.acreate", new_callable=AsyncMock) as mock_acreate:
         mock_acreate.return_value = {

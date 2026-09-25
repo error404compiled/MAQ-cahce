@@ -1,8 +1,8 @@
-from gptcache.adapter import openai
-from gptcache import cache
-from gptcache.manager import get_data_manager, CacheBase, VectorBase
-from gptcache.embedding import Onnx as EmbeddingOnnx
-from gptcache.similarity_evaluation import OnnxModelEvaluation
+from maqcache.adapter import openai
+from maqcache import cache
+from maqcache.manager import get_data_manager, CacheBase, VectorBase
+from maqcache.embedding import Onnx as EmbeddingOnnx
+from maqcache.similarity_evaluation import OnnxModelEvaluation
 
 
 def run():

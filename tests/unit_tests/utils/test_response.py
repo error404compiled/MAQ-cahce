@@ -1,4 +1,4 @@
-from gptcache.utils.response import (
+from maqcache.utils.response import (
     get_message_from_openai_answer,
     get_stream_message_from_openai_answer,
 )

@@ -1,8 +1,8 @@
 import os
 
-from gptcache.manager import get_data_manager
-from gptcache.adapter import openai
-from gptcache import cache
+from maqcache.manager import get_data_manager
+from maqcache.adapter import openai
+from maqcache import cache
 
 
 def run():

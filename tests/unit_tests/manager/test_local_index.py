@@ -5,11 +5,11 @@ from tempfile import TemporaryDirectory
 
 import numpy as np
 
-from gptcache.manager.vector_data import VectorBase
-from gptcache.manager.vector_data.base import VectorData
-from gptcache.manager.vector_data.docarray_index import DocArrayIndex
-from gptcache.manager.vector_data.faiss import Faiss
-from gptcache.manager.vector_data.hnswlib_store import Hnswlib
+from maqcache.manager.vector_data import VectorBase
+from maqcache.manager.vector_data.base import VectorData
+from maqcache.manager.vector_data.docarray_index import DocArrayIndex
+from maqcache.manager.vector_data.faiss import Faiss
+from maqcache.manager.vector_data.hnswlib_store import Hnswlib
 
 DIM = 512
 MAX_ELEMENTS = 10000

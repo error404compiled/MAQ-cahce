@@ -4,14 +4,14 @@ import time
 
 import numpy
 
-from gptcache import cache, Cache, Config
-from gptcache.adapter.adapter import adapt
-from gptcache.adapter.api import put, get
-from gptcache.manager import get_data_manager, manager_factory
-from gptcache.processor.post import first, nop
-from gptcache.processor.pre import get_prompt
-from gptcache.utils.error import NotInitError
-from gptcache.utils.time import time_cal
+from maqcache import cache, Cache, Config
+from maqcache.adapter.adapter import adapt
+from maqcache.adapter.api import put, get
+from maqcache.manager import get_data_manager, manager_factory
+from maqcache.processor.post import first, nop
+from maqcache.processor.pre import get_prompt
+from maqcache.utils.error import NotInitError
+from maqcache.utils.time import time_cal
 
 data_map_path = "data_map.txt"
 

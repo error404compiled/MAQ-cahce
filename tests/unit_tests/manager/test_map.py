@@ -1,6 +1,6 @@
 import os
 
-from gptcache.manager.data_manager import MapDataManager
+from maqcache.manager.data_manager import MapDataManager
 
 data_map_path = "data_map.txt"
 

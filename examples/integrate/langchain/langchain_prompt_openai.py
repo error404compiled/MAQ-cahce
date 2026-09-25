@@ -5,9 +5,9 @@ import time
 from langchain.llms import OpenAI
 from langchain import PromptTemplate, LLMChain
 
-from gptcache.adapter.langchain_models import LangChainLLMs
-from gptcache import Cache
-from gptcache.processor.pre import get_prompt
+from maqcache.adapter.langchain_models import LangChainLLMs
+from maqcache import Cache
+from maqcache.processor.pre import get_prompt
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 

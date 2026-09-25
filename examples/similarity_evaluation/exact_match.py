@@ -1,6 +1,6 @@
-from gptcache.adapter import openai
-from gptcache import cache
-from gptcache.similarity_evaluation.exact_match import ExactMatchEvaluation
+from maqcache.adapter import openai
+from maqcache import cache
+from maqcache.similarity_evaluation.exact_match import ExactMatchEvaluation
 
 
 def run():

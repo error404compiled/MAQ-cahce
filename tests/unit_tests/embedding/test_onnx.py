@@ -1,5 +1,5 @@
-from gptcache.embedding import Onnx
-from gptcache.adapter.api import _get_model
+from maqcache.embedding import Onnx
+from maqcache.adapter.api import _get_model
 
 
 def test_onnx():

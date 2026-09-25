@@ -1,10 +1,10 @@
-from gptcache.adapter import openai
-from gptcache import cache
-from gptcache.manager import get_data_manager, VectorBase
-from gptcache.similarity_evaluation import SequenceMatchEvaluation
-from gptcache.processor.pre import concat_all_queries
-from gptcache.embedding import Onnx
-from gptcache import Config
+from maqcache.adapter import openai
+from maqcache import cache
+from maqcache.manager import get_data_manager, VectorBase
+from maqcache.similarity_evaluation import SequenceMatchEvaluation
+from maqcache.processor.pre import concat_all_queries
+from maqcache.embedding import Onnx
+from maqcache import Config
 
 
 def run():

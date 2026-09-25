@@ -1,7 +1,7 @@
-from gptcache import cache, Config, Cache
-from gptcache.adapter.api import put, get, init_similar_cache
-from gptcache.processor.post import nop
-from gptcache.processor.pre import get_prompt
+from maqcache import cache, Config, Cache
+from maqcache.adapter.api import put, get, init_similar_cache
+from maqcache.processor.post import nop
+from maqcache.processor.pre import get_prompt
 
 
 def run_basic():

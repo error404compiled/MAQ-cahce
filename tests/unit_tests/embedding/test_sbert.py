@@ -1,5 +1,5 @@
-from gptcache.adapter.api import _get_model
-from gptcache.embedding import SBERT
+from maqcache.adapter.api import _get_model
+from maqcache.embedding import SBERT
 
 
 def test_sbert():

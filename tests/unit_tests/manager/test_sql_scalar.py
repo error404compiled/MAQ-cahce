@@ -5,9 +5,9 @@ from tempfile import TemporaryDirectory
 
 import numpy as np
 
-from gptcache.manager.scalar_data.base import CacheData, Question
-from gptcache.manager.scalar_data.sql_storage import SQLStorage
-from gptcache.utils import import_sql_client
+from maqcache.manager.scalar_data.base import CacheData, Question
+from maqcache.manager.scalar_data.sql_storage import SQLStorage
+from maqcache.utils import import_sql_client
 
 
 class TestSQLStore(unittest.TestCase):

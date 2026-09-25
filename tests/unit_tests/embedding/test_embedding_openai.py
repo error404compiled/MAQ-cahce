@@ -1,8 +1,8 @@
 import os
 from unittest.mock import patch
 
-from gptcache.embedding import OpenAI
-from gptcache.adapter.api import _get_model
+from maqcache.embedding import OpenAI
+from maqcache.adapter.api import _get_model
 
 
 def test_embedding():

@@ -1,8 +1,8 @@
 import os
 from unittest.mock import patch
 
-from gptcache.adapter.api import _get_eval
-from gptcache.utils import import_cohere
+from maqcache.adapter.api import _get_eval
+from maqcache.utils import import_cohere
 
 import_cohere()
 

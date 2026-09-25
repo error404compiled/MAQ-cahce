@@ -1,5 +1,5 @@
-from gptcache.embedding import LangChain
-from gptcache.utils import import_langchain, prompt_install
+from maqcache.embedding import LangChain
+from maqcache.utils import import_langchain, prompt_install
 
 import_langchain()
 from langchain.embeddings import FakeEmbeddings

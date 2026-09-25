@@ -1,13 +1,13 @@
 import random
 from unittest.mock import patch
 
-from gptcache import Cache
-from gptcache.adapter import openai
-from gptcache.adapter.api import init_similar_cache
-from gptcache.embedding import Onnx
-from gptcache.manager import manager_factory
-from gptcache.processor.pre import last_content
-from gptcache.utils.response import get_message_from_openai_answer
+from maqcache import Cache
+from maqcache.adapter import openai
+from maqcache.adapter.api import init_similar_cache
+from maqcache.embedding import Onnx
+from maqcache.manager import manager_factory
+from maqcache.processor.pre import last_content
+from maqcache.utils.response import get_message_from_openai_answer
 
 
 def test_redis_sqlite():
@@ -22,8 +22,8 @@ def test_redis_sqlite():
         manager_factory(
             "redis,redis",
             data_dir=str(random.random()),
-            scalar_params={"global_key_prefix": "gptcache_scalar"},
-            vector_params={"dimension": encoder.dimension, "namespace": "gptcache_vector", "collection_name": "cache_vector"},
+            scalar_params={"global_key_prefix": "maqcache_scalar"},
+            vector_params={"dimension": encoder.dimension, "namespace": "maqcache_vector", "collection_name": "cache_vector"},
         )
     ]
     for redis_data_manager in redis_data_managers:

@@ -1,7 +1,7 @@
 import math
 
-from gptcache.adapter.api import _get_eval
-from gptcache.similarity_evaluation import SearchDistanceEvaluation
+from maqcache.adapter.api import _get_eval
+from maqcache.similarity_evaluation import SearchDistanceEvaluation
 
 
 def _test_evaluation_default(evaluation):

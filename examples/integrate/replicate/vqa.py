@@ -1,11 +1,11 @@
 import time
 
-from gptcache import cache
-from gptcache.adapter import replicate
-from gptcache.embedding import Timm, Onnx
-from gptcache.manager import get_data_manager, CacheBase, VectorBase, ObjectBase
-from gptcache.processor.pre import get_input_image_file_name
-from gptcache.similarity_evaluation.np import NumpyNormEvaluation
+from maqcache import cache
+from maqcache.adapter import replicate
+from maqcache.embedding import Timm, Onnx
+from maqcache.manager import get_data_manager, CacheBase, VectorBase, ObjectBase
+from maqcache.processor.pre import get_input_image_file_name
+from maqcache.similarity_evaluation.np import NumpyNormEvaluation
 
 timm = Timm('resnet18')
 onnx = Onnx()
@@ -22,10 +22,10 @@ cache.init(
     )
     
 
-image_path = '../../../docs/GPTCache.png'
+image_path = '../../../docs/MAQCache.png'
 
 
-# run replicate clinet with gptcache
+# run replicate clinet with maqcache
 start = time.time()
 question1 = "what is in the image?"
 question2 = "What can you see in the image?"

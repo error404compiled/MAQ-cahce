@@ -3,9 +3,9 @@ import os
 from langchain import Cohere
 from langchain.llms import OpenAI
 
-from gptcache.adapter.langchain_models import LangChainLLMs
-from gptcache import cache, Cache
-from gptcache.processor.pre import get_prompt
+from maqcache.adapter.langchain_models import LangChainLLMs
+from maqcache import cache, Cache
+from maqcache.processor.pre import get_prompt
 
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 Cohere.cohere_api_key = os.getenv("COHERE_API_KEY")

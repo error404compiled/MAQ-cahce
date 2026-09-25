@@ -1,7 +1,7 @@
 import math
 
-from gptcache.adapter.api import _get_eval
-from gptcache.similarity_evaluation import SbertCrossencoderEvaluation
+from maqcache.adapter.api import _get_eval
+from maqcache.similarity_evaluation import SbertCrossencoderEvaluation
 
 
 def _test_evaluation(evaluation):

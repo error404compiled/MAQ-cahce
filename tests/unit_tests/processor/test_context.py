@@ -2,12 +2,12 @@ from tempfile import TemporaryDirectory
 from typing import Any, Dict
 from unittest.mock import patch
 
-from gptcache import cache
-from gptcache.adapter import openai
-from gptcache.manager import manager_factory
-from gptcache.processor import ContextProcess
-from gptcache.processor.pre import all_content
-from gptcache.utils.response import get_message_from_openai_answer
+from maqcache import cache
+from maqcache.adapter import openai
+from maqcache.manager import manager_factory
+from maqcache.processor import ContextProcess
+from maqcache.processor.pre import all_content
+from maqcache.utils.response import get_message_from_openai_answer
 
 
 class CITestContextProcess(ContextProcess):

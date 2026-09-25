@@ -1,5 +1,5 @@
-from gptcache.embedding import PaddleNLP
-from gptcache.adapter.api import _get_model
+from maqcache.embedding import PaddleNLP
+from maqcache.adapter.api import _get_model
 
 
 def test_paddlenlp():

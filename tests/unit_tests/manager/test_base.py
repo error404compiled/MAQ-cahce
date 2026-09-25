@@ -1,9 +1,9 @@
 import unittest
 
-from gptcache.utils.error import NotFoundError
-from gptcache.manager import CacheBase, VectorBase
-from gptcache.manager.scalar_data.manager import CacheBase as InnerCacheBase
-from gptcache.manager.vector_data.manager import VectorBase as InnerVectorBase
+from maqcache.utils.error import NotFoundError
+from maqcache.manager import CacheBase, VectorBase
+from maqcache.manager.scalar_data.manager import CacheBase as InnerCacheBase
+from maqcache.manager.vector_data.manager import VectorBase as InnerVectorBase
 
 
 class TestBaseStore(unittest.TestCase):

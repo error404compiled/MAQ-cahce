@@ -1,9 +1,9 @@
 from unittest.mock import patch, Mock
 
-from gptcache.utils import import_httpx
+from maqcache.utils import import_httpx
 
 import_httpx()
-from gptcache.client import Client
+from maqcache.client import Client
 
 
 def test_client():

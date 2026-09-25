@@ -4,14 +4,14 @@ import time
 
 from PIL import Image
 
-from gptcache import cache
-from gptcache.adapter.stability_sdk import StabilityInference, generation
-from gptcache.embedding import Onnx
-from gptcache.manager.factory import manager_factory
-from gptcache.processor.pre import get_prompt
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache
+from maqcache.adapter.stability_sdk import StabilityInference, generation
+from maqcache.embedding import Onnx
+from maqcache.manager.factory import manager_factory
+from maqcache.processor.pre import get_prompt
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
-# init gptcache
+# init maqcache
 onnx = Onnx()
 data_manager = manager_factory('sqlite,faiss,local',
                                data_dir='/',
@@ -25,7 +25,7 @@ cache.init(
     similarity_evaluation=SearchDistanceEvaluation()
     )
 
-# run with gptcache
+# run with maqcache
 api_key = os.getenv('STABILITY_KEY', 'key-goes-here')
 
 stability_api = StabilityInference(

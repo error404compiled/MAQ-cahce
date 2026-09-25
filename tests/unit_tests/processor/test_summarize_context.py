@@ -1,6 +1,6 @@
 from transformers import RobertaTokenizer
 
-from gptcache.adapter.api import _get_pre_context_function
+from maqcache.adapter.api import _get_pre_context_function
 
 
 def test_summarization_context_process():

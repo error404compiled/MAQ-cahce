@@ -2,8 +2,8 @@ import math
 
 import numpy as np
 
-from gptcache.adapter.api import _get_eval
-from gptcache.similarity_evaluation import NumpyNormEvaluation
+from maqcache.adapter.api import _get_eval
+from maqcache.similarity_evaluation import NumpyNormEvaluation
 
 
 embedding_func = lambda x: np.array([1, 1])

@@ -1,7 +1,7 @@
 import datetime
 
-from gptcache.manager.scalar_data.base import CacheData
-from gptcache.similarity_evaluation import TimeEvaluation
+from maqcache.manager.scalar_data.base import CacheData
+from maqcache.similarity_evaluation import TimeEvaluation
 
 
 def test_evaluation_time():

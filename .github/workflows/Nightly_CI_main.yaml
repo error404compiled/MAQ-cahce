@@ -20,7 +20,7 @@ on:
       - '.github/workflows/Nightly_CI_main.yaml'
 
 jobs:
-  nightly-CI-gpt-cache-cli-main:
+  nightly-CI-maqcache-cli-main:
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false

@@ -28,14 +28,14 @@ print(f'Question: {question}')
 print('Time consuming: {:.2f}s'.format(time.time() - start_time))
 print(f'Answer: {response_text(response)}\n')
 
-# GPTCache exact matching usage
-print('GPTCache exact matching example.....')
+# MAQCache exact matching usage
+print('MAQCache exact matching example.....')
 print('Cache loading.....')
 
-# To use GPTCache, that's all you need
+# To use MAQCache, that's all you need
 # -------------------------------------------------
-from gptcache import cache
-from gptcache.adapter import openai
+from maqcache import cache
+from maqcache.adapter import openai
 
 cache.init()
 cache.set_openai_key()
@@ -57,15 +57,15 @@ for _ in range(2):
     print('Time consuming: {:.2f}s'.format(time.time() - start_time))
     print(f'Answer: {response_text(response)}\n')
 
-# GPTCache similar search usage
-print('GPTCache similar search example.....')
+# MAQCache similar search usage
+print('MAQCache similar search example.....')
 print('Cache loading.....')
 
-from gptcache import cache
-from gptcache.adapter import openai
-from gptcache.embedding import Onnx
-from gptcache.manager import get_data_manager, VectorBase
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache
+from maqcache.adapter import openai
+from maqcache.embedding import Onnx
+from maqcache.manager import get_data_manager, VectorBase
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
 onnx = Onnx()
 vector_base = VectorBase('faiss', dimension=onnx.dimension)

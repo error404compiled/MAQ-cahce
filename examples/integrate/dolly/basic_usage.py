@@ -1,11 +1,11 @@
 import time
 import torch
 from transformers import pipeline
-from gptcache.processor.pre import get_inputs
-from gptcache.manager import manager_factory
-from gptcache import Cache
-from gptcache.embedding import Onnx
-from gptcache.adapter.dolly import Dolly
+from maqcache.processor.pre import get_inputs
+from maqcache.manager import manager_factory
+from maqcache import Cache
+from maqcache.embedding import Onnx
+from maqcache.adapter.dolly import Dolly
 
 
 def dolly_base_usage():
@@ -28,7 +28,7 @@ and Founding Father who served as the first president of the United States from 
         answer = llm(context, cache_obj=llm_cache)
         print("Time consuming: {:.2f}s".format(time.time() - start_time))
         print(f"Received: {answer[0]['generated_text']}")
-        print(f"Hit cache: {answer[0].get('gptcache', False)}")
+        print(f"Hit cache: {answer[0].get('maqcache', False)}")
 
 
 def dolly_from_hugggingface():
@@ -53,7 +53,7 @@ and Founding Father who served as the first president of the United States from 
         answer = llm(context, cache_obj=llm_cache)
         print("Time consuming: {:.2f}s".format(time.time() - start_time))
         print(f"Received: {answer[0]['generated_text']}")
-        print(f"Hit cache: {answer[0].get('gptcache', False)}")            
+        print(f"Hit cache: {answer[0].get('maqcache', False)}")            
 
 
 if __name__ == '__main__':

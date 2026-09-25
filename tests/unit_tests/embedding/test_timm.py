@@ -2,8 +2,8 @@ from io import BytesIO
 
 import requests
 
-from gptcache.adapter.api import _get_model
-from gptcache.embedding import Timm
+from maqcache.adapter.api import _get_model
+from maqcache.embedding import Timm
 
 
 def test_timm():

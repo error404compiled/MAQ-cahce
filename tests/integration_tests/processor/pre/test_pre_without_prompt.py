@@ -1,10 +1,10 @@
 import os
 
-from gptcache import Cache, Config
-from gptcache.adapter import openai
-from gptcache.manager import get_data_manager
-from gptcache.processor.pre import last_content_without_prompt
-from gptcache.utils.response import get_message_from_openai_answer
+from maqcache import Cache, Config
+from maqcache.adapter import openai
+from maqcache.manager import get_data_manager
+from maqcache.processor.pre import last_content_without_prompt
+from maqcache.utils.response import get_message_from_openai_answer
 
 
 def test_pre_without_prompt():

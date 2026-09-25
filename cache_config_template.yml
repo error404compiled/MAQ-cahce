@@ -7,7 +7,7 @@ embedding_config:
     # Set model kws here including `model`, `api_key` if needed
 storage_config:
     data_dir:
-        gptcache_data
+        maqcache_data
     manager:
         sqlite,faiss
     vector_params:

@@ -1,5 +1,5 @@
-from gptcache.adapter.api import _get_model
-from gptcache.embedding import Rwkv
+from maqcache.adapter.api import _get_model
+from maqcache.embedding import Rwkv
 
 
 def test_rwkv():

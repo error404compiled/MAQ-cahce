@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import numpy as np
 
-from gptcache.utils import import_replicate, import_pillow
+from maqcache.utils import import_replicate, import_pillow
 
 import_replicate()
 import_pillow()
@@ -13,12 +13,12 @@ import_pillow()
 import replicate
 from PIL import Image
 
-from gptcache import cache
-from gptcache.adapter import replicate
-from gptcache.processor.pre import get_input_str, get_input_image_file_name
-from gptcache.utils.response import get_image_from_openai_url
-from gptcache.manager.factory import manager_factory
-from gptcache.similarity_evaluation.onnx import OnnxModelEvaluation
+from maqcache import cache
+from maqcache.adapter import replicate
+from maqcache.processor.pre import get_input_str, get_input_image_file_name
+from maqcache.utils.response import get_image_from_openai_url
+from maqcache.manager.factory import manager_factory
+from maqcache.similarity_evaluation.onnx import OnnxModelEvaluation
 
 
 
@@ -31,9 +31,9 @@ def test_replicate():
     b_handle = BytesIO()
     img.save(b_handle, format="JPEG")
     b_handle.seek(0)
-    b_handle.name = "GPTCache.png"
+    b_handle.name = "MAQCache.png"
     expected_img_data = BufferedReader(b_handle)
-    expect_answer = "gptcache"
+    expect_answer = "maqcache"
 
     cache.init(pre_embedding_func=get_input_str)
     with patch("replicate.run") as mock_create:

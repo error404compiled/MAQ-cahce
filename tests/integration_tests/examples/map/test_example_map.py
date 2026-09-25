@@ -1,9 +1,9 @@
 import os
 
-from gptcache.utils.response import get_message_from_openai_answer
-from gptcache.manager.factory import get_data_manager
-from gptcache.adapter import openai
-from gptcache import cache, Cache
+from maqcache.utils.response import get_message_from_openai_answer
+from maqcache.manager.factory import get_data_manager
+from maqcache.adapter import openai
+from maqcache import cache, Cache
 
 
 def test_map():

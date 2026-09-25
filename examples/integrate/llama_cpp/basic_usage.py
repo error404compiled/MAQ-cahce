@@ -1,10 +1,10 @@
 import time
 
-from gptcache.adapter.llama_cpp import Llama
-from gptcache.manager import manager_factory
-from gptcache import Cache
-from gptcache.embedding import Onnx
-from gptcache.processor.pre import get_prompt
+from maqcache.adapter.llama_cpp import Llama
+from maqcache.manager import manager_factory
+from maqcache import Cache
+from maqcache.embedding import Onnx
+from maqcache.processor.pre import get_prompt
 
 
 def llama_cpp_base_usage():
@@ -22,7 +22,7 @@ def llama_cpp_base_usage():
         answer = llm(prompt="Q: Name the planets in the solar system? A: ", stop=["Q:", "\n"], cache_obj=llm_cache)
         print("Time consuming: {:.2f}s".format(time.time() - start_time))
         print(f"Received: {answer['choices'][0]['text']}")
-        print(f"Hit cache: {answer.get('gptcache', False)}")
+        print(f"Hit cache: {answer.get('maqcache', False)}")
 
 
 def llama_cpp_stream_usage():

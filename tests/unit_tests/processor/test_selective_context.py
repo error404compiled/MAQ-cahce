@@ -1,5 +1,5 @@
-from gptcache.adapter.api import _get_pre_context_function
-from gptcache.utils import import_selective_context
+from maqcache.adapter.api import _get_pre_context_function
+from maqcache.utils import import_selective_context
 
 
 def test_selective_context_process():

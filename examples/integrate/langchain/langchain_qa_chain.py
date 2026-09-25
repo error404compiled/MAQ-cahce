@@ -4,9 +4,9 @@ from langchain import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.schema import Document
 
-from gptcache import cache
-from gptcache.adapter.api import init_similar_cache
-from gptcache.adapter.langchain_models import LangChainLLMs
+from maqcache import cache
+from maqcache.adapter.api import init_similar_cache
+from maqcache.adapter.langchain_models import LangChainLLMs
 
 
 def get_content_func(data, **_):

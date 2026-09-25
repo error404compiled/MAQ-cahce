@@ -4,7 +4,7 @@ name: Publish package to PyPI
 #     branches:
 #       - 'main'
 #     paths:
-#       - 'gptcache/**'
+#       - 'maqcache/**'
 #       - '!**.md'
 #       - '.github/workflows/publish_dev_package.yaml'
 #   pull_request:

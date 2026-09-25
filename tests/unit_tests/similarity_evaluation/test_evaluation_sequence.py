@@ -1,8 +1,8 @@
 import numpy as np
 
-from gptcache.adapter.api import _get_eval
-from gptcache.similarity_evaluation import SequenceMatchEvaluation
-from gptcache.similarity_evaluation.sequence_match import reweight
+from maqcache.adapter.api import _get_eval
+from maqcache.similarity_evaluation import SequenceMatchEvaluation
+from maqcache.similarity_evaluation.sequence_match import reweight
 
 
 def normalize(vec):
@@ -40,7 +40,7 @@ def test_get_eval():
         kws={
             "embedding_extractor": "onnx",
             "weights": [0.1, 0.2, 0.7],
-            "embedding_config": {"model": "GPTCache/paraphrase-albert-onnx"},
+            "embedding_config": {"model": "MAQCache/paraphrase-albert-onnx"},
         },
     )
     _test_evaluation(evaluation)

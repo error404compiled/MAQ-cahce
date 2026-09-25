@@ -6,11 +6,11 @@ import pytest
 
 from base.client_base import Base
 from common import common_func as cf
-from gptcache import cache, Config
-from gptcache.adapter import openai
-from gptcache.embedding import SBERT
-from gptcache.manager import get_data_manager, VectorBase
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache, Config
+from maqcache.adapter import openai
+from maqcache.embedding import SBERT
+from maqcache.manager import get_data_manager, VectorBase
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
 
 def get_text_response(response):

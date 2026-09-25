@@ -1,12 +1,12 @@
 import time
 import os
 
-from gptcache import cache
-from gptcache.adapter import openai
-from gptcache.embedding import Onnx
-from gptcache.manager import manager_factory
-from gptcache.processor.post import LlmVerifier
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache
+from maqcache.adapter import openai
+from maqcache.embedding import Onnx
+from maqcache.manager import manager_factory
+from maqcache.processor.post import LlmVerifier
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
 print("This example demonstrates how to use LLM verification with OpenAI's GPT-3.5 Turbo model.")
 cache.set_openai_key()

@@ -2,16 +2,16 @@ import time
 
 import numpy as np
 
-from gptcache.manager.scalar_data.base import CacheData, Question
-from gptcache.manager.scalar_data.mongo import MongoStorage
-from gptcache.utils import import_mongodb
+from maqcache.manager.scalar_data.base import CacheData, Question
+from maqcache.manager.scalar_data.mongo import MongoStorage
+from maqcache.utils import import_mongodb
 
 import_mongodb()
 from mongoengine import connect, disconnect
 
 
 def test_mongo():
-    test_dbname = "gptcache_test"
+    test_dbname = "maqcache_test"
     _clear_test_db(test_dbname)
     _inner_test_normal(test_dbname)
 

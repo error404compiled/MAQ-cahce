@@ -2,9 +2,9 @@ from datetime import datetime
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
-from gptcache.adapter.api import _get_eval
-from gptcache.similarity_evaluation import JevEvaluation
-from gptcache.similarity_evaluation.jev import JevEvaluation as JevEvaluationClass
+from maqcache.adapter.api import _get_eval
+from maqcache.similarity_evaluation import JevEvaluation
+from maqcache.similarity_evaluation.jev import JevEvaluation as JevEvaluationClass
 
 
 def test_jev_evaluation():

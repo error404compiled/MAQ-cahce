@@ -1,11 +1,11 @@
 import os
 import time
 
-from gptcache.manager import get_data_manager, VectorBase
-from gptcache import cache, Cache
-from gptcache.embedding import Onnx
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
-from gptcache.adapter import openai
+from maqcache.manager import get_data_manager, VectorBase
+from maqcache import cache, Cache
+from maqcache.embedding import Onnx
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.adapter import openai
 
 
 def response_text(openai_resp):

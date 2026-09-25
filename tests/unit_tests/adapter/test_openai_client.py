@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from gptcache import cache
+from maqcache import cache
 
 
 def _install_fake_openai():
@@ -17,9 +17,9 @@ def _install_fake_openai():
 
 _install_fake_openai()
 
-with patch("gptcache.utils._check_library", return_value=True):
-    from gptcache.adapter import openai_client
-    from gptcache.adapter.openai_client import (
+with patch("maqcache.utils._check_library", return_value=True):
+    from maqcache.adapter import openai_client
+    from maqcache.adapter.openai_client import (
         get_message_from_openai_client_answer,
         get_stream_message_from_openai_client_answer,
     )

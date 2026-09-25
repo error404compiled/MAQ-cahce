@@ -1,4 +1,4 @@
-from gptcache.utils.error import (
+from maqcache.utils.error import (
     CacheError,
     NotInitError,
     NotFoundError,
@@ -20,7 +20,7 @@ def test_error_type():
 def test_wrap():
     import openai
 
-    from gptcache.utils.error import wrap_error
+    from maqcache.utils.error import wrap_error
 
     def raise_error():
         try:

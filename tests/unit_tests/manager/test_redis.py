@@ -1,8 +1,8 @@
 import numpy as np
 
-from gptcache.embedding import Onnx
-from gptcache.manager import VectorBase
-from gptcache.manager.vector_data.base import VectorData
+from maqcache.embedding import Onnx
+from maqcache.manager import VectorBase
+from maqcache.manager.vector_data.base import VectorData
 
 
 def test_redis_vector_store():

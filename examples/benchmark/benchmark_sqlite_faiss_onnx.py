@@ -2,12 +2,12 @@ import json
 import os
 import time
 
-from gptcache.adapter import openai
-from gptcache import cache, Config
-from gptcache.manager import get_data_manager, CacheBase, VectorBase
-from gptcache.similarity_evaluation.onnx import OnnxModelEvaluation
-from gptcache.embedding import Onnx as EmbeddingOnnx
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache.adapter import openai
+from maqcache import cache, Config
+from maqcache.manager import get_data_manager, CacheBase, VectorBase
+from maqcache.similarity_evaluation.onnx import OnnxModelEvaluation
+from maqcache.embedding import Onnx as EmbeddingOnnx
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
 
 def run():

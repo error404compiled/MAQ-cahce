@@ -1,9 +1,9 @@
 import numpy as np
 
-from gptcache import cache
-from gptcache.adapter import openai
-from gptcache.manager import CacheBase, VectorBase, get_data_manager
-from gptcache.similarity_evaluation.distance import SearchDistanceEvaluation
+from maqcache import cache
+from maqcache.adapter import openai
+from maqcache.manager import CacheBase, VectorBase, get_data_manager
+from maqcache.similarity_evaluation.distance import SearchDistanceEvaluation
 
 d = 8
 

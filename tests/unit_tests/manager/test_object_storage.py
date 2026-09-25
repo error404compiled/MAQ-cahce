@@ -6,9 +6,9 @@ from pathlib import Path
 import numpy as np
 from tempfile import TemporaryDirectory
 
-from gptcache.manager.object_data.local_storage import LocalObjectStorage
-from gptcache.manager.object_data.s3_storage import S3Storage
-from gptcache.manager import ObjectBase
+from maqcache.manager.object_data.local_storage import LocalObjectStorage
+from maqcache.manager.object_data.s3_storage import S3Storage
+from maqcache.manager import ObjectBase
 
 
 class TestLocal(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestS3(unittest.TestCase):
         endpoint = os.environ.get('ENDPOINT')        
         if access_key is None or secret_key is None or bucket is None:
             return
-        o = S3Storage(bucket, 'gptcache', access_key, secret_key, endpoint)
+        o = S3Storage(bucket, 'maqcache', access_key, secret_key, endpoint)
         data = b'My test'
         fp = o.put(data)
         self.assertEqual(o.get(fp), data)
