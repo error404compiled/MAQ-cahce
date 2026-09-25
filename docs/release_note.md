@@ -9,6 +9,7 @@ avoiding a repeat call to the model.
 
 ### LLM adapters
 
+- MAQ SLM (MAQ Softwares' internal OpenAI-compatible LLM gateway)
 - OpenAI (chat completion, including streaming responses, image
   generation, audio transcription, and moderation requests)
 - Anthropic

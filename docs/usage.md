@@ -140,6 +140,27 @@ stack for you instead of building one by hand:
 
 ## Talking to an LLM through the cache
 
+**MAQ SLM adapter** — MAQ Softwares' internal OpenAI-compatible LLM
+gateway. Set `MAQ_SLM_API_KEY` (and optionally `MAQ_SLM_BASE_URL` if
+you're not using the default gateway) in your environment, then:
+
+```python
+from maqcache import cache
+from maqcache.adapter import maq_slm
+
+cache.init()
+
+response = maq_slm.ChatCompletion.create(
+    model="qwen-3.8-27b",
+    messages=[{"role": "user", "content": "what's github"}],
+)
+answer = response.choices[0].message.content
+```
+
+This adapter is a thin subclass of the modern OpenAI-client adapter
+below — any OpenAI-compatible endpoint can be wired up the same way by
+overriding `_sync_client`/`_async_client` with your own `base_url`.
+
 **OpenAI adapter:**
 
 ```python

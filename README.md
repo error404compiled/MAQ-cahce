@@ -1,8 +1,6 @@
 # MAQCache : A Library for Creating Semantic Cache for LLM Queries
 Slash Your LLM API Costs by 10x 💰, Boost Speed by 100x ⚡ 
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/license/mit/)
-
 🐳 [The MAQCache server](docs/usage.md#running-maqcache-as-a-server) can be built and run as a docker container, which means that **any language** will be able to use MAQCache!
 
 📔 This project is under active development, and the API may change. For the most up-to-date information, see the [usage guide](docs/usage.md) and [release notes](docs/release_note.md).
@@ -280,12 +278,14 @@ A [sample benchmark](examples/benchmark/benchmark_sqlite_faiss_onnx.py) is inclu
 
 - **LLM Adapter**: 
 The LLM Adapter is designed to integrate different LLM models by unifying their APIs and request protocols. MAQCache offers a standardized interface for this purpose, with current support for ChatGPT integration.
+  - [x] Support MAQ SLM, MAQ Softwares' internal OpenAI-compatible LLM gateway.
   - [x] Support OpenAI ChatGPT API.
+  - [x] Support Anthropic Claude API.
   - [x] Support [langchain](https://github.com/hwchase17/langchain).
   - [x] Support [minigpt4](https://github.com/Vision-CAIR/MiniGPT-4.git).
   - [x] Support [Llamacpp](https://github.com/ggerganov/llama.cpp.git).
   - [x] Support [dolly](https://github.com/databrickslabs/dolly.git).
-  - [ ] Support other LLMs, such as Hugging Face Hub, Bard, Anthropic.
+  - [ ] Support other LLMs, such as Hugging Face Hub, Bard.
 - **Multimodal Adapter (experimental)**: 
 The Multimodal Adapter is designed to integrate different large multimodal models by unifying their APIs and request protocols. MAQCache offers a standardized interface for this purpose, with current support for integrations of image generation, audio transcription.
   - [x] Support OpenAI Image Create API.
